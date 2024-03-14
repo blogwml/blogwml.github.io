@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha256-yIDrPSXHZdOZhAqiBP7CKzIwMQmRCJ8UeB8Jo17YC4o=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.19.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Java IO流">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IO流">
+<meta property="og:url" content="http://example.com/2024/02/05/IO%E6%B5%81/index.html">
+<meta property="og:site_name" content="MyBlog">
+<meta property="og:description" content="Java IO流">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2024/02/05/IO%E6%B5%81/image-20240206120106348.png">
+<meta property="og:image" content="http://example.com/2024/02/05/IO%E6%B5%81/image-20240207161653138.png">
+<meta property="og:image" content="http://example.com/2024/02/05/IO%E6%B5%81/image-20240208122432984.png">
+<meta property="article:published_time" content="2024-02-05T12:27:04.000Z">
+<meta property="article:modified_time" content="2024-02-08T05:03:49.361Z">
+<meta property="article:author" content="WML">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2024/02/05/IO%E6%B5%81/image-20240206120106348.png">
+
+
+<link rel="canonical" href="http://example.com/2024/02/05/IO%E6%B5%81/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2024/02/05/IO%E6%B5%81/","path":"2024/02/05/IO流/","title":"IO流"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>IO流 | MyBlog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">MyBlog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-links"><a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>LINKS</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#IO%E6%B5%81%E5%88%86%E7%B1%BB"><span class="nav-number">1.</span> <span class="nav-text">IO流分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C"><span class="nav-number">2.</span> <span class="nav-text">常用文件操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%96%87%E4%BB%B6%E5%AF%B9%E8%B1%A1"><span class="nav-number">2.1.</span> <span class="nav-text">创建文件对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E6%96%87%E4%BB%B6%E4%BF%A1%E6%81%AF"><span class="nav-number">2.2.</span> <span class="nav-text">获取文件信息</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IO%E6%B5%81%E5%B8%B8%E7%94%A8%E7%B1%BB"><span class="nav-number">3.</span> <span class="nav-text">IO流常用类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#IO%E6%B5%81%E4%BD%93%E7%B3%BB"><span class="nav-number">3.1.</span> <span class="nav-text">IO流体系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FileInputStream"><span class="nav-number">3.2.</span> <span class="nav-text">FileInputStream</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FileOutputStream"><span class="nav-number">3.3.</span> <span class="nav-text">FileOutputStream</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FileReader"><span class="nav-number">3.4.</span> <span class="nav-text">FileReader</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FileWriter"><span class="nav-number">3.5.</span> <span class="nav-text">FileWriter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8A%82%E7%82%B9%E6%B5%81%E5%92%8C%E5%A4%84%E7%90%86%E6%B5%81"><span class="nav-number">3.6.</span> <span class="nav-text">节点流和处理流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BufferedReader"><span class="nav-number">3.7.</span> <span class="nav-text">BufferedReader</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BufferedWriter"><span class="nav-number">3.8.</span> <span class="nav-text">BufferedWriter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E5%85%85"><span class="nav-number">3.9.</span> <span class="nav-text">补充</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ObjectOutputStream"><span class="nav-number">3.10.</span> <span class="nav-text">ObjectOutputStream</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ObjectInputStream"><span class="nav-number">3.11.</span> <span class="nav-text">ObjectInputStream</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#InputStreamReader"><span class="nav-number">3.12.</span> <span class="nav-text">InputStreamReader</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OutputStreamWriter"><span class="nav-number">3.13.</span> <span class="nav-text">OutputStreamWriter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PrintStream"><span class="nav-number">3.14.</span> <span class="nav-text">PrintStream</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="WML"
+      src="/images/wuhuan.png">
+  <p class="site-author-name" itemprop="name">WML</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="/" title="home → &#x2F;" rel="noopener me"><i class="fa fa-home fa-fw"></i>home</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/02/05/IO%E6%B5%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/wuhuan.png">
+      <meta itemprop="name" content="WML">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MyBlog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="IO流 | MyBlog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          IO流
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-02-05 20:27:04" itemprop="dateCreated datePublished" datetime="2024-02-05T20:27:04+08:00">2024-02-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-02-08 13:03:49" itemprop="dateModified" datetime="2024-02-08T13:03:49+08:00">2024-02-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/JAVA/" itemprop="url" rel="index"><span itemprop="name">JAVA</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><hr>
+<p>Java IO流</p>
+<span id="more"></span>
+
+<h2 id="IO流分类"><a href="#IO流分类" class="headerlink" title="IO流分类"></a>IO流分类</h2><ol>
+<li><p>按照 <strong>流的方向</strong> 进行分类：</p>
+<p>以<strong>内存</strong>作为参照物：</p>
+<ul>
+<li>往内存中去：叫做**输入(Input)<strong>。或者叫做</strong>读(Read)**。</li>
+<li>从内存中出来：叫做**输出(Output)<strong>。或者叫做</strong>写(Write)**。</li>
+</ul>
+</li>
+<li><p>按照<strong>读取数据方式</strong>不同进行分类：</p>
+<ul>
+<li><p>按照 <strong><code>字节</code></strong> 的方式读取数据，一次读取1个字节byte，等同于一次读取8个二进制位。</p>
+<p>这种流是<strong>万能</strong>的，什么类型的文件都可以读取。包括：**<code>文本文件，图片，声音文件，视频文件</code>** 等…</p>
+</li>
+<li><p>按照 <strong><code>字符</code></strong> 的方式读取数据的，一次读取一个字符。</p>
+<p>这种流是为了方便读取 <strong><code>普通文本文件</code></strong> 而存在的，这种流不能读取：图片、声音、视频等文件。只能读取 **<code>纯文本文件</code>**，连word文件都无法读取。</p>
+<p><em>Tip：纯文本文件，不单单是.txt文件，还包括 <strong>.java、.ini、.py</strong> 。总之只要 <strong><code>能用记事本打开</code></strong> 的文件都是普通文本文件。</em></p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="常用文件操作"><a href="#常用文件操作" class="headerlink" title="常用文件操作"></a>常用文件操作</h2><p>一个File对象有可能对应的是<strong>目录</strong>，也可能是<strong>文件</strong>。</p>
+<p><strong>File只是一个路径名的抽象表示形式，是一个对象，只有执行了createNewFile方法，才会真正的在磁盘创建文件</strong></p>
+<h3 id="创建文件对象"><a href="#创建文件对象" class="headerlink" title="创建文件对象"></a>创建文件对象</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="title class_">File</span>(String pathname) <span class="comment">//根据路径创建一个File对象</span></span><br><span class="line"><span class="keyword">new</span> <span class="title class_">File</span>(File parent, String child) <span class="comment">//根据父目录文件+子路径创建</span></span><br><span class="line"><span class="keyword">new</span> <span class="title class_">File</span>(String parent, String child) <span class="comment">//根据父目录+子路径创建</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="获取文件信息"><a href="#获取文件信息" class="headerlink" title="获取文件信息"></a>获取文件信息</h3><table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>boolean delete()</td>
+<td>删除文件&#x2F;<strong>空</strong>文件夹</td>
+</tr>
+<tr>
+<td>boolean exists()</td>
+<td>判断文件&#x2F;文件夹是否存在</td>
+</tr>
+<tr>
+<td>File getAbsoluteFile()</td>
+<td>获取文件&#x2F;文件夹的绝对路径（返回值：File）</td>
+</tr>
+<tr>
+<td>String getAbsolutePath()</td>
+<td>获取绝对路径（返回值：String）</td>
+</tr>
+<tr>
+<td>String getName()</td>
+<td>获得文件&#x2F;文件夹名字</td>
+</tr>
+<tr>
+<td>String getParent()</td>
+<td>获取文件&#x2F;文件夹的父级目录</td>
+</tr>
+<tr>
+<td>File getParentFile()</td>
+<td>获取文件&#x2F;文件夹的父文件&#x2F;文件夹（返回值：File）</td>
+</tr>
+<tr>
+<td>String getPath()</td>
+<td>获取文件&#x2F;文件夹的路径</td>
+</tr>
+<tr>
+<td>boolean isDirectory()</td>
+<td>判断该文件&#x2F;文件夹是不是文件夹</td>
+</tr>
+<tr>
+<td>isFile()</td>
+<td>判断该文件&#x2F;文件夹是不是文件</td>
+</tr>
+<tr>
+<td><strong>long length()</strong></td>
+<td><strong>获取文件大小；获取文件夹里面的文件个数</strong></td>
+</tr>
+<tr>
+<td>String[] list()</td>
+<td>获取文件夹的文件名字以String[]返回</td>
+</tr>
+<tr>
+<td>File[] listFiles()</td>
+<td>获取文件夹的文件名字以File[]返回</td>
+</tr>
+</tbody></table>
+<p>创建文件和文件夹：</p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>createNewFile</td>
+<td>创建文件</td>
+</tr>
+<tr>
+<td>boolean mkdir()</td>
+<td>创建文件&#x2F;文件夹</td>
+</tr>
+<tr>
+<td>boolean mkdirs()</td>
+<td>创建多重文件夹</td>
+</tr>
+</tbody></table>
+<h2 id="IO流常用类"><a href="#IO流常用类" class="headerlink" title="IO流常用类"></a>IO流常用类</h2><h3 id="IO流体系"><a href="#IO流体系" class="headerlink" title="IO流体系"></a>IO流体系</h3><table>
+<thead>
+<tr>
+<th>（抽象基类）</th>
+<th>字节流</th>
+<th>字符流</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>输入流</td>
+<td>InputStream</td>
+<td>Reader</td>
+</tr>
+<tr>
+<td>输出流</td>
+<td>OutputStream</td>
+<td>Writer</td>
+</tr>
+</tbody></table>
+<p><img src="/2024/02/05/IO%E6%B5%81/image-20240206120106348.png" alt="image-20240206120106348"></p>
+<h3 id="FileInputStream"><a href="#FileInputStream" class="headerlink" title="FileInputStream"></a>FileInputStream</h3><p>InputStream抽象类是所有字节输入流类的超类</p>
+<p>InputStream常用子类：</p>
+<ul>
+<li>FileInputStream：文件输入流</li>
+<li>BufferedInputStream：缓冲字节输入流</li>
+<li>ObjectInputStream：对象字节输入流</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>int read()</td>
+<td>读取一个字节，返回值为该字节<strong>ASCII码</strong>；读到文件末尾返回-1</td>
+</tr>
+<tr>
+<td>int read(byte[] b)</td>
+<td>读b数组长度的字节到b数组中，返回值为读到的字节个数；读到文件末尾返回-1</td>
+</tr>
+<tr>
+<td>int read(byte[] b, int off, int len)</td>
+<td>从b素组off位置读len长度的字节到b数组中，返回值为读到的字节个数；读到文件末尾返回-1</td>
+</tr>
+<tr>
+<td>int available()</td>
+<td>返回文件有效的字节数</td>
+</tr>
+<tr>
+<td>long skip(long n)</td>
+<td>跳过n个字节</td>
+</tr>
+<tr>
+<td>void close()</td>
+<td>关闭文件输入流</td>
+</tr>
+</tbody></table>
+<p>案例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">FileInputStreamTest04</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">FileInputStream</span> <span class="variable">fis</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            fis = <span class="keyword">new</span> <span class="title class_">FileInputStream</span>(<span class="string">&quot;chapter23/src/tempfile3&quot;</span>);</span><br><span class="line">            <span class="comment">// 开始读，采用byte数组，一次读取多个字节。最多读取“数组.length”个字节。</span></span><br><span class="line">            <span class="type">byte</span>[] bytes = <span class="keyword">new</span> <span class="title class_">byte</span>[<span class="number">4</span>];<span class="comment">// 准备一个4个长度的byte数组，一次最多读取4个字节。</span></span><br><span class="line">            <span class="type">int</span> <span class="variable">readCount</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">            <span class="comment">// 这个方法的返回值是：读取到的字节数量。（不是字节本身）;1个字节都没有读取到返回-1(文件读到末尾)</span></span><br><span class="line">            <span class="keyword">while</span>((readCount = fis.read(bytes)) != -<span class="number">1</span>) &#123;</span><br><span class="line">            	<span class="comment">// 不应该全部都转换，应该是读取了多少个字节，转换多少个。</span></span><br><span class="line">                System.out.print(<span class="keyword">new</span> <span class="title class_">String</span>(bytes, <span class="number">0</span>, readCount));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (FileNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        	<span class="comment">// 在finally语句块当中确保流一定关闭。</span></span><br><span class="line">            <span class="keyword">if</span> (fis != <span class="literal">null</span>) &#123;<span class="comment">// 避免空指针异常！</span></span><br><span class="line">            	<span class="comment">// 关闭流的前提是：流不是空。流是null的时候没必要关闭。</span></span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    fis.close();</span><br><span class="line">                &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">FileInputStreamTest05</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">FileInputStream</span> <span class="variable">fis</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            fis = <span class="keyword">new</span> <span class="title class_">FileInputStream</span>(<span class="string">&quot;tempfile&quot;</span>);</span><br><span class="line">            System.out.println(<span class="string">&quot;总字节数量：&quot;</span> + fis.available());</span><br><span class="line">            <span class="comment">// 读1个字节</span></span><br><span class="line">            <span class="comment">//int readByte = fis.read();</span></span><br><span class="line">            <span class="comment">// 还剩下可以读的字节数量是：5</span></span><br><span class="line">            <span class="comment">//System.out.println(&quot;剩下多少个字节没有读：&quot; + fis.available());</span></span><br><span class="line">            <span class="comment">// 这个方法有什么用？</span></span><br><span class="line">            <span class="type">byte</span>[] bytes = <span class="keyword">new</span> <span class="title class_">byte</span>[fis.available()]; <span class="comment">// 这种方式不太适合太大的文件，因为byte[]数组不能太大。</span></span><br><span class="line">            <span class="comment">// 不需要循环了。</span></span><br><span class="line">            <span class="comment">// 直接读一次就行了。</span></span><br><span class="line">            <span class="type">int</span> <span class="variable">readCount</span> <span class="operator">=</span> fis.read(bytes); <span class="comment">// 6</span></span><br><span class="line">            System.out.println(<span class="keyword">new</span> <span class="title class_">String</span>(bytes)); <span class="comment">// abcdef</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">// skip跳过几个字节不读取，这个方法也可能以后会用！</span></span><br><span class="line">            fis.skip(<span class="number">3</span>);</span><br><span class="line">            System.out.println(fis.read()); <span class="comment">//100</span></span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">catch</span> (FileNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (fis != <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    fis.close();</span><br><span class="line">                &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="FileOutputStream"><a href="#FileOutputStream" class="headerlink" title="FileOutputStream"></a>FileOutputStream</h3><p><strong>构造方法：</strong></p>
+<table>
+<thead>
+<tr>
+<th>构造方法名</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>FileOutputStream(String name)</td>
+<td>name为文件路径</td>
+</tr>
+<tr>
+<td>FileOutputStream(String name, boolean append)</td>
+<td>name为文件路径，append为true表示在文件末尾追加；为false表示清空文件内容，重新写入</td>
+</tr>
+<tr>
+<td>FileOutputStream(File file)</td>
+<td></td>
+</tr>
+<tr>
+<td>FileOutputStream(File file, boolean append)</td>
+<td>append为true表示在文件末尾追加；为false表示清空文件内容，重新写入</td>
+</tr>
+</tbody></table>
+<p><strong>方法：</strong></p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>void write(int b)</td>
+<td>将指定字节写入文件中</td>
+</tr>
+<tr>
+<td>void write(byte[] b)</td>
+<td>将b.length个字节写入文件中</td>
+</tr>
+<tr>
+<td>void write(byte[] b, int off, int len)</td>
+<td>将b素组off位置开始，len长度的字节写入文件中</td>
+</tr>
+<tr>
+<td>void flush()</td>
+<td>刷新此输出流并强制写出所有缓冲的输出字节</td>
+</tr>
+<tr>
+<td>void close()</td>
+<td>关闭文件输出流</td>
+</tr>
+</tbody></table>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">FileOutputStreamTest01</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">FileOutputStream</span> <span class="variable">fos</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// myfile文件不存在的时候会自动新建！</span></span><br><span class="line">            <span class="comment">// 这种方式谨慎使用，这种方式会先将原文件清空，然后重新写入。</span></span><br><span class="line">            <span class="comment">//fos = new FileOutputStream(&quot;myfile&quot;);</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">// 以追加的方式在文件末尾写入。不会清空原文件内容。</span></span><br><span class="line">            fos = <span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(<span class="string">&quot;tempfile3&quot;</span>, <span class="literal">true</span>);</span><br><span class="line">            <span class="comment">// 开始写。</span></span><br><span class="line">            <span class="type">byte</span>[] bytes = &#123;<span class="number">97</span>, <span class="number">98</span>, <span class="number">99</span>, <span class="number">100</span>&#125;;</span><br><span class="line">            <span class="comment">// 将byte数组全部写出！</span></span><br><span class="line">            fos.write(bytes); <span class="comment">// abcd</span></span><br><span class="line">            <span class="comment">// 将byte数组的一部分写出！</span></span><br><span class="line">            fos.write(bytes, <span class="number">0</span>, <span class="number">2</span>); <span class="comment">// 再写出ab</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">// 字符串</span></span><br><span class="line">            <span class="type">String</span> <span class="variable">s</span> <span class="operator">=</span> <span class="string">&quot;我是一个中国人，我骄傲！！！&quot;</span>;</span><br><span class="line">            <span class="comment">// 将字符串转换成byte数组。</span></span><br><span class="line">            <span class="type">byte</span>[] bs = s.getBytes();</span><br><span class="line">            <span class="comment">// 写</span></span><br><span class="line">            fos.write(bs);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 写完之后，最后一定要刷新</span></span><br><span class="line">            fos.flush();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (FileNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (fos != <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    fos.close();</span><br><span class="line">                &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="FileReader"><a href="#FileReader" class="headerlink" title="FileReader"></a>FileReader</h3><p><strong>构造方法：</strong></p>
+<table>
+<thead>
+<tr>
+<th>构造方法名</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>FileReader(String fileName)</td>
+<td>name为文件路径</td>
+</tr>
+<tr>
+<td>FileReader(File file)</td>
+<td></td>
+</tr>
+</tbody></table>
+<p><strong>方法：</strong></p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>int read()</td>
+<td>读取一个字符，返回值为该字符ASCII码；读到文件末尾返回-1</td>
+</tr>
+<tr>
+<td>int read(char[] c)</td>
+<td>读c数组长度的字节到c数组中，返回值为读到的字符个数；读到文件末尾返回-1</td>
+</tr>
+<tr>
+<td>int read(char[] c, int off, int len)</td>
+<td>从c素组off位置读len长度的字符到c数组中，返回值为读到的字符个数；读到文件末尾返回-1</td>
+</tr>
+<tr>
+<td>long skip(long n)</td>
+<td>跳过n个字符</td>
+</tr>
+<tr>
+<td>void close()</td>
+<td>关闭文件输入流</td>
+</tr>
+</tbody></table>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">FileReaderTest</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">FileReader</span> <span class="variable">reader</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 创建文件字符输入流</span></span><br><span class="line">            reader = <span class="keyword">new</span> <span class="title class_">FileReader</span>(<span class="string">&quot;tempfile&quot;</span>);</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 开始读</span></span><br><span class="line">            <span class="type">char</span>[] chars = <span class="keyword">new</span> <span class="title class_">char</span>[<span class="number">4</span>]; <span class="comment">// 一次读取4个字符</span></span><br><span class="line">            <span class="type">int</span> <span class="variable">readCount</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">while</span>((readCount = reader.read(chars)) != -<span class="number">1</span>) &#123;</span><br><span class="line">                System.out.print(<span class="keyword">new</span> <span class="title class_">String</span>(chars,<span class="number">0</span>,readCount));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (FileNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (reader != <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    reader.close();</span><br><span class="line">                &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="FileWriter"><a href="#FileWriter" class="headerlink" title="FileWriter"></a>FileWriter</h3><p><strong>构造方法</strong></p>
+<table>
+<thead>
+<tr>
+<th>构造方法名</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>FileWriter(String fileName)</td>
+<td>name为文件路径</td>
+</tr>
+<tr>
+<td>FileWriter(String fileName, boolean append)</td>
+<td>name为文件路径，append为true表示在文件末尾追加；为false表示清空文件内容，重新写入</td>
+</tr>
+<tr>
+<td>FileWriter(File file)</td>
+<td></td>
+</tr>
+<tr>
+<td>FileWriter(File file, boolean append)</td>
+<td>append为true表示在文件末尾追加；为false表示清空文件内容，重新写入</td>
+</tr>
+</tbody></table>
+<p><strong>方法</strong></p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>void write(int c)</td>
+<td>将指定字符写入文件中</td>
+</tr>
+<tr>
+<td>void write(char[] c)</td>
+<td>将c.length个字符写入文件中</td>
+</tr>
+<tr>
+<td>void write(char[] c, int off, int len)</td>
+<td>将c素组off位置开始，len长度的字符写入文件中</td>
+</tr>
+<tr>
+<td>void write(String str)</td>
+<td>将字符串写入文件中</td>
+</tr>
+<tr>
+<td>void write(String str, int off, int len)</td>
+<td>从字符串off位置开始截取len长度的字符串写入文件</td>
+</tr>
+<tr>
+<td>void flush()</td>
+<td>刷新此输出流并强制写出所有缓冲的输出字符</td>
+</tr>
+<tr>
+<td>void close()</td>
+<td>关闭文件输出流</td>
+</tr>
+</tbody></table>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">FileWriterTest</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">FileWriter</span> <span class="variable">out</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 创建文件字符输出流对象</span></span><br><span class="line">            <span class="comment">//out = new FileWriter(&quot;file&quot;);</span></span><br><span class="line">            out = <span class="keyword">new</span> <span class="title class_">FileWriter</span>(<span class="string">&quot;file&quot;</span>, <span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 开始写。</span></span><br><span class="line">            <span class="type">char</span>[] chars = &#123;<span class="string">&#x27;我&#x27;</span>,<span class="string">&#x27;是&#x27;</span>,<span class="string">&#x27;中&#x27;</span>,<span class="string">&#x27;国&#x27;</span>,<span class="string">&#x27;人&#x27;</span>&#125;;</span><br><span class="line">            out.write(chars);</span><br><span class="line">            out.write(chars, <span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line"></span><br><span class="line">            out.write(<span class="string">&quot;我是一名java软件工程师！&quot;</span>);</span><br><span class="line">            <span class="comment">// 写出一个换行符。</span></span><br><span class="line">            out.write(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">            out.write(<span class="string">&quot;hello world!&quot;</span>);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 刷新</span></span><br><span class="line">            out.flush();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (out != <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    out.close();</span><br><span class="line">                &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><em>Tip：对于FileWriter , 一定要关闭流，或者 flush 才能真正的把数据写入到文件</em></p>
+<h3 id="节点流和处理流"><a href="#节点流和处理流" class="headerlink" title="节点流和处理流"></a>节点流和处理流</h3><p>节点流：可以从一个特定的数据源读写数据，如FileReader、FileWriter</p>
+<p>处理流：也叫包装流，连接在已存在的流之上，为程序提供更强大的读写功能，如BufferedReader、BufferedWriter</p>
+<p><img src="/2024/02/05/IO%E6%B5%81/image-20240207161653138.png" alt="image-20240207161653138"></p>
+<p><em>处理流对节点流进行包装，使用了修饰器设计模式，不会直接与数据源相连。</em></p>
+<p>关闭处理流时，只需要关闭外层流即可</p>
+<h3 id="BufferedReader"><a href="#BufferedReader" class="headerlink" title="BufferedReader"></a>BufferedReader</h3><p><strong>构造方法</strong></p>
+<table>
+<thead>
+<tr>
+<th>构造方法名</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>BufferedReader(Reader in)</td>
+<td>in为reader对象（可以是reader的实现类）</td>
+</tr>
+</tbody></table>
+<p><strong>方法</strong></p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>int read()</td>
+<td>读取一个字符，返回值为该字符ASCII码；读到文件末尾返回-1</td>
+</tr>
+<tr>
+<td>int read(char[] c)</td>
+<td>读c数组长度的字节到c数组中，返回值为读到的字符个数；读到文件末尾返回-1</td>
+</tr>
+<tr>
+<td>String readLine()</td>
+<td>读取文件一行</td>
+</tr>
+<tr>
+<td>long skip(long n)</td>
+<td>跳过n个字符</td>
+</tr>
+<tr>
+<td>void close()</td>
+<td>关闭文件输入流</td>
+</tr>
+</tbody></table>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BufferedReaderTest01</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception&#123;</span><br><span class="line"></span><br><span class="line">        <span class="type">FileReader</span> <span class="variable">reader</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileReader</span>(<span class="string">&quot;Copy02.java&quot;</span>);</span><br><span class="line">        <span class="comment">// 当一个流的构造方法中需要一个流的时候，这个被传进来的流叫做：节点流。</span></span><br><span class="line">        <span class="comment">// 外部负责包装的这个流，叫做：包装流，还有一个名字叫做：处理流。</span></span><br><span class="line">        <span class="comment">// 像当前这个程序来说：FileReader就是一个节点流。BufferedReader就是包装流/处理流。</span></span><br><span class="line">        <span class="type">BufferedReader</span> <span class="variable">br</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedReader</span>(reader);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// br.readLine()方法读取一个文本行，但不带换行符。</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">s</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">while</span>((s = br.readLine()) != <span class="literal">null</span>)&#123;</span><br><span class="line">            System.out.print(s);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 关闭流</span></span><br><span class="line">        <span class="comment">// 对于包装流来说，只需要关闭最外层流就行，里面的节点流会自动关闭。（可以看源代码。）</span></span><br><span class="line">        br.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="BufferedWriter"><a href="#BufferedWriter" class="headerlink" title="BufferedWriter"></a>BufferedWriter</h3><p><strong>构造方法</strong></p>
+<table>
+<thead>
+<tr>
+<th>构造方法名</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>BufferedWriter(Writer out)</td>
+<td>out为Writer对象（可以是reader的实现类）</td>
+</tr>
+</tbody></table>
+<p><strong>方法</strong></p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>void write(int c)</td>
+<td>将指定字符写入文件中</td>
+</tr>
+<tr>
+<td>void write(char[] c, int off, int len)</td>
+<td>将c素组off位置开始，len长度的字符写入文件中</td>
+</tr>
+<tr>
+<td>void write(String str, int off, int len)</td>
+<td>从字符串off位置开始截取len长度的字符串写入文件</td>
+</tr>
+<tr>
+<td>void flush()</td>
+<td>刷新此输出流并强制写出所有缓冲的输出字符</td>
+</tr>
+<tr>
+<td>void close()</td>
+<td>关闭文件输出流</td>
+</tr>
+</tbody></table>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception&#123;</span><br><span class="line">    <span class="comment">// 带有缓冲区的字符输出流</span></span><br><span class="line">    <span class="type">BufferedWriter</span> <span class="variable">out</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedWriter</span>(<span class="keyword">new</span> <span class="title class_">OutputStreamWriter</span>(<span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(<span class="string">&quot;copy&quot;</span>, <span class="literal">true</span>)));</span><br><span class="line">    <span class="comment">// 开始写。</span></span><br><span class="line">    out.write(<span class="string">&quot;hello world!&quot;</span>);</span><br><span class="line">    out.write(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">    out.write(<span class="string">&quot;hello kitty!&quot;</span>);</span><br><span class="line">    <span class="comment">// 刷新</span></span><br><span class="line">    out.flush();</span><br><span class="line">    <span class="comment">// 关闭最外层</span></span><br><span class="line">    out.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h3><p>序列化就是在保存数据时，保存数据的值和数据类型</p>
+<p>反序列化时在恢复数据时，恢复数据的值和数据类型</p>
+<p>需要让某个对象支持序列化机制，则必须让其类是可序列化的，为了让某个类是可序列化的，该类必须实现如下两个接口之一：</p>
+<ul>
+<li>Serializable：是一个标记接口，没有方法</li>
+<li>Externalizable：该接口有方法需要实现，建议用上面的方法</li>
+</ul>
+<p>Serializable这个标志接口是给java虚拟机参考的，java虚拟机看到这个接口之后，会为该类自动生成一个序列化版本号。</p>
+<p>这种自动生成的序列化版本号缺点是：一旦代码确定之后，<strong>不能进行后续的修改</strong>，因为只要修改，必然会重新编译，此时会生成全新的序列化版本号，这个时候java虚拟机会认为这是一个全新的类。</p>
+<p>所以凡是一个类实现了Serializable接口，建议给该类<strong>提供一个固定不变的序列化版本号</strong>。<br>这样，以后这个类即使代码修改了，但是版本号不变，java虚拟机会认为是同一个类。</p>
+<p><img src="/2024/02/05/IO%E6%B5%81/image-20240208122432984.png" alt="image-20240208122432984"></p>
+<h3 id="ObjectOutputStream"><a href="#ObjectOutputStream" class="headerlink" title="ObjectOutputStream"></a>ObjectOutputStream</h3><p>序列化对象</p>
+<p><strong>构造方法</strong></p>
+<table>
+<thead>
+<tr>
+<th>构造方法名</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ObjectOutputStream(OutputStream out)</td>
+<td>out为OutputStream对象</td>
+</tr>
+</tbody></table>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ObjectOutStream_</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="comment">//序列化后，保存的文件格式，不是存文本，而是按照他的格式来保存</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">filePath</span> <span class="operator">=</span> <span class="string">&quot;e:\\data.dat&quot;</span>;</span><br><span class="line">        <span class="type">ObjectOutputStream</span> <span class="variable">oos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectOutputStream</span>(<span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(filePath));</span><br><span class="line">        <span class="comment">//序列化数据到 e:\data.dat</span></span><br><span class="line">        oos.writeInt(<span class="number">100</span>);<span class="comment">// int -&gt; Integer (实现了 Serializable)</span></span><br><span class="line">        oos.writeBoolean(<span class="literal">true</span>);<span class="comment">// boolean -&gt; Boolean (实现了 Serializable)</span></span><br><span class="line">        oos.writeChar(<span class="string">&#x27;a&#x27;</span>);<span class="comment">// char -&gt; Character (实现了 Serializable)</span></span><br><span class="line">        oos.writeDouble(<span class="number">9.5</span>);<span class="comment">// double -&gt; Double (实现了 Serializable)</span></span><br><span class="line">        oos.writeUTF(<span class="string">&quot;韩顺平教育&quot;</span>);<span class="comment">//String</span></span><br><span class="line">        <span class="comment">//保存一个 dog 对象</span></span><br><span class="line">        oos.writeObject(<span class="keyword">new</span> <span class="title class_">Dog</span>(<span class="string">&quot;旺财&quot;</span>, <span class="number">10</span>, <span class="string">&quot;日本&quot;</span>, <span class="string">&quot;白色&quot;</span>));</span><br><span class="line">        oos.close();</span><br><span class="line">        System.out.println(<span class="string">&quot;数据保存完毕(序列化形式)&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="ObjectInputStream"><a href="#ObjectInputStream" class="headerlink" title="ObjectInputStream"></a>ObjectInputStream</h3><p>反序列化对象</p>
+<p><strong>构造方法</strong></p>
+<table>
+<thead>
+<tr>
+<th>构造方法名</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ObjectInputStream(InputStream in)</td>
+<td>in为InputStream对象</td>
+</tr>
+</tbody></table>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1.创建流对象</span></span><br><span class="line"><span class="type">ObjectInputStream</span> <span class="variable">ois</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectInputStream</span>(<span class="keyword">new</span> <span class="title class_">FileInputStream</span>(<span class="string">&quot;src\\data.dat&quot;</span>));</span><br><span class="line"><span class="comment">// 2.读取， 注意顺序</span></span><br><span class="line">System.out.println(ois.readInt());</span><br><span class="line">System.out.println(ois.readBoolean());</span><br><span class="line">System.out.println(ois.readChar());</span><br><span class="line">System.out.println(ois.readDouble());</span><br><span class="line">System.out.println(ois.readUTF());</span><br><span class="line">System.out.println(ois.readObject());</span><br><span class="line">System.out.println(ois.readObject());</span><br><span class="line">System.out.println(ois.readObject());</span><br><span class="line"><span class="comment">// 3.关闭</span></span><br><span class="line">ois.close();</span><br><span class="line">System.out.println(<span class="string">&quot;以反序列化的方式读取(恢复)ok~&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="InputStreamReader"><a href="#InputStreamReader" class="headerlink" title="InputStreamReader"></a>InputStreamReader</h3><p>当处理纯文本数据时，如果使用字符流效率更高，并且可以有效解决中文问题</p>
+<p>Reader的子类，可以将InputStream（字节流）包装成Reader（字符流）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//将字节流 FileInputStream 转成字符流 InputStreamReader, 指定编码 gbk/utf-8</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">InputStreamReader_</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">filePath</span> <span class="operator">=</span> <span class="string">&quot;e:\\a.txt&quot;</span>;</span><br><span class="line">        <span class="comment">//1. 把 FileInputStream 转成 InputStreamReader</span></span><br><span class="line">        <span class="comment">//2. 指定编码 gbk</span></span><br><span class="line">        <span class="comment">//InputStreamReader isr = new InputStreamReader(new FileInputStream(filePath), &quot;gbk&quot;);</span></span><br><span class="line">        <span class="comment">//3. 把 InputStreamReader 传入 BufferedReader</span></span><br><span class="line">        <span class="comment">//BufferedReader br = new BufferedReader(isr);</span></span><br><span class="line">        <span class="comment">//将 2 和 3 合在一起</span></span><br><span class="line">        <span class="type">BufferedReader</span> <span class="variable">br</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedReader</span>(<span class="keyword">new</span> <span class="title class_">InputStreamReader</span>(</span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">FileInputStream</span>(filePath), <span class="string">&quot;gbk&quot;</span>));</span><br><span class="line">        <span class="comment">//4. 读取     </span></span><br><span class="line">        <span class="type">String</span> <span class="variable">s</span> <span class="operator">=</span> br.readLine();</span><br><span class="line">        System.out.println(<span class="string">&quot;读取内容=&quot;</span> + s);</span><br><span class="line">        <span class="comment">//5. 关闭外层流</span></span><br><span class="line">        br.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="OutputStreamWriter"><a href="#OutputStreamWriter" class="headerlink" title="OutputStreamWriter"></a>OutputStreamWriter</h3><p>将OutputStream（字节流）转换成Writer（字符流）</p>
+<h3 id="PrintStream"><a href="#PrintStream" class="headerlink" title="PrintStream"></a>PrintStream</h3><p>java.io.PrintStream：标准的字节输出流。默认输出到控制台。</p>
+<p><strong>构造方法</strong></p>
+<table>
+<thead>
+<tr>
+<th>构造方法名</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>PrintStream(File file)</td>
+<td></td>
+</tr>
+<tr>
+<td>PrintStream(OutputStream out)</td>
+<td></td>
+</tr>
+<tr>
+<td>PrintStream(String fileName)</td>
+<td>fileName文件地址</td>
+</tr>
+</tbody></table>
+<p><strong>方法</strong></p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>println(参数类型不定 x)</td>
+<td>输出x带换行</td>
+</tr>
+<tr>
+<td>print(参数类型不定 x)</td>
+<td>输出x不带换行</td>
+</tr>
+<tr>
+<td>void flush()</td>
+<td>刷新此输出流并强制写出所有缓冲的输出字符</td>
+</tr>
+<tr>
+<td>void close()</td>
+<td>关闭流</td>
+</tr>
+</tbody></table>
+<p><strong>改变流的输出方向：</strong>   <strong><code>System.setOut(PrintStream对象)</code></strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PrintStreamTest</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception&#123;</span><br><span class="line">        <span class="comment">// 可以改变标准输出流的输出方向吗？ 可以// 标准输出流不再指向控制台，指向“log”文件。</span></span><br><span class="line">        <span class="type">PrintStream</span> <span class="variable">printStream</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">PrintStream</span>(<span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(<span class="string">&quot;log&quot;</span>));</span><br><span class="line">        <span class="comment">// 修改输出方向，将输出方向修改到&quot;log&quot;文件。</span></span><br><span class="line">        System.setOut(printStream);<span class="comment">// 修改输出方向</span></span><br><span class="line">        <span class="comment">// 再输出</span></span><br><span class="line">        System.out.println(<span class="string">&quot;hello world&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;hello kitty&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;hello zhangsan&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/02/03/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80/" rel="prev" title="多线程基础">
+                  <i class="fa fa-angle-left"></i> 多线程基础
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/02/06/%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%8E%E5%85%B6%E4%BB%96%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%BA%92%E8%BD%AC/" rel="next" title="字符串与其他数据类型互转">
+                  字符串与其他数据类型互转 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">WML</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
