@@ -569,6 +569,24 @@
       </categories>
   </entry>
   <entry>
+    <title>Hello World</title>
+    <url>/2024/01/17/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
     <title>MySQL基础</title>
     <url>/2024/02/15/MySQL%E5%9F%BA%E7%A1%80/</url>
     <content><![CDATA[<hr>
@@ -1234,24 +1252,6 @@ ROLLBACK;
       </categories>
   </entry>
   <entry>
-    <title>Hello World</title>
-    <url>/2024/01/17/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-  </entry>
-  <entry>
     <title>next主题设置</title>
     <url>/2024/01/20/next%E4%B8%BB%E9%A2%98%E8%AE%BE%E7%BD%AE/</url>
     <content><![CDATA[<p>使用next主题</p>
@@ -1471,26 +1471,6 @@ ROLLBACK;
       </categories>
   </entry>
   <entry>
-    <title>信息订阅聚合工具</title>
-    <url>/2024/01/24/%E4%BF%A1%E6%81%AF%E8%AE%A2%E9%98%85%E8%81%9A%E5%90%88%E5%B7%A5%E5%85%B7/</url>
-    <content><![CDATA[<p>信息聚合app和网站</p>
-<span id="more"></span>
-
-<h3 id="QiReader——基于Web的全平台RSS阅读器"><a href="#QiReader——基于Web的全平台RSS阅读器" class="headerlink" title="QiReader——基于Web的全平台RSS阅读器"></a>QiReader——基于Web的全平台RSS阅读器</h3><p><a href="https://www.v2ex.com/t/834418">2022 还有人用 RSS 吗？我做了一个 RSS 服务: QiReader - 全平台 RSS 阅读器 (PWA) - V2EX</a></p>
-<p>没有app，只有网页端</p>
-<p>网站链接：</p>
-<p><a href="https://www.qireader.com.cn/">全部订阅源 - Qi Reader</a></p>
-<h3 id="今日热榜"><a href="#今日热榜" class="headerlink" title="今日热榜"></a>今日热榜</h3><p><a href="https://tophub.today/">今日热榜官网 (tophub.today)</a></p>
-<p><a href="https://tophub.app/">https://tophub.app【备用域名】</a></p>
-<p>app、网页端</p>
-<h3 id="摸鱼kik"><a href="#摸鱼kik" class="headerlink" title="摸鱼kik"></a>摸鱼kik</h3><p>app、windows</p>
-<p><a href="https://moyukik.sohu.com/">摸鱼kik-每刻都值得摸鱼 (sohu.com)</a></p>
-]]></content>
-      <categories>
-        <category>工具</category>
-      </categories>
-  </entry>
-  <entry>
     <title>博客插入图片</title>
     <url>/2024/01/28/%E5%8D%9A%E5%AE%A2%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87/</url>
     <content><![CDATA[<hr>
@@ -1553,6 +1533,26 @@ ROLLBACK;
 ]]></content>
       <categories>
         <category>博客</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>信息订阅聚合工具</title>
+    <url>/2024/01/24/%E4%BF%A1%E6%81%AF%E8%AE%A2%E9%98%85%E8%81%9A%E5%90%88%E5%B7%A5%E5%85%B7/</url>
+    <content><![CDATA[<p>信息聚合app和网站</p>
+<span id="more"></span>
+
+<h3 id="QiReader——基于Web的全平台RSS阅读器"><a href="#QiReader——基于Web的全平台RSS阅读器" class="headerlink" title="QiReader——基于Web的全平台RSS阅读器"></a>QiReader——基于Web的全平台RSS阅读器</h3><p><a href="https://www.v2ex.com/t/834418">2022 还有人用 RSS 吗？我做了一个 RSS 服务: QiReader - 全平台 RSS 阅读器 (PWA) - V2EX</a></p>
+<p>没有app，只有网页端</p>
+<p>网站链接：</p>
+<p><a href="https://www.qireader.com.cn/">全部订阅源 - Qi Reader</a></p>
+<h3 id="今日热榜"><a href="#今日热榜" class="headerlink" title="今日热榜"></a>今日热榜</h3><p><a href="https://tophub.today/">今日热榜官网 (tophub.today)</a></p>
+<p><a href="https://tophub.app/">https://tophub.app【备用域名】</a></p>
+<p>app、网页端</p>
+<h3 id="摸鱼kik"><a href="#摸鱼kik" class="headerlink" title="摸鱼kik"></a>摸鱼kik</h3><p>app、windows</p>
+<p><a href="https://moyukik.sohu.com/">摸鱼kik-每刻都值得摸鱼 (sohu.com)</a></p>
+]]></content>
+      <categories>
+        <category>工具</category>
       </categories>
   </entry>
   <entry>
@@ -1714,6 +1714,154 @@ ROLLBACK;
       </categories>
   </entry>
   <entry>
+    <title>拿下八股</title>
+    <url>/2024/03/24/%E6%8B%BF%E4%B8%8B%E5%85%AB%E8%82%A1/</url>
+    <content><![CDATA[<hr>
+<p>八股汇总</p>
+<span id="more"></span>
+
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://www.yuque.com/coding-guide/bckbvp/rl7g3i">我的八股文学习路线及攻略 (yuque.com)</a></p>
+<h2 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h2><h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><h3 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h3><p>缓存穿透是指查询一个不存在的数据，先在redis中查，redis中没有，然后向数据库中查，但是数据库中也没有，如果有大量这种请求都去查询数据库，会给数据库带来很大压力。</p>
+<p><strong>解决方法：</strong></p>
+<ol>
+<li><p>缓存空值：如果说查询数据库不存在这个数据，就把空值缓存到redis中</p>
+<p>优点：简单</p>
+<p>缺点：如果有很多这样的请求，会占用redis缓存，消耗内存，还有可能会造成不一致的问题</p>
+</li>
+<li><p>布隆过滤器</p>
+<p>布隆过滤器主要用于检索一个元素在数据库中是否存在，可以使用redisson实现布隆过滤器。</p>
+<p>它的底层是一个bitmap，每个位置只能存储0或1，一个key来了之后经过多个不同的hash函数运算得到多个hash值，如果hash值对应的位置全是1，则数据库中有这个值。</p>
+<p>优点：内存占用少</p>
+<p>缺点：存在误判，bitmap长度越大，误判率越小。redisson可以设置这个误判率</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>秋招</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>拿下项目</title>
+    <url>/2024/03/24/%E6%8B%BF%E4%B8%8B%E9%A1%B9%E7%9B%AE/</url>
+    <content><![CDATA[<hr>
+<p>项目总结及常见面试问题</p>
+<span id="more"></span>
+
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://www.yuque.com/coding-guide/bckbvp/xml7ki">后端面试项目考察及准备(长文攻略) (yuque.com)</a></p>
+<h2 id="牛客论坛"><a href="#牛客论坛" class="headerlink" title="牛客论坛"></a>牛客论坛</h2><p><img src="/2024/03/24/%E6%8B%BF%E4%B8%8B%E9%A1%B9%E7%9B%AE/20210520202315292.png" alt="img"></p>
+<p><img src="/2024/03/24/%E6%8B%BF%E4%B8%8B%E9%A1%B9%E7%9B%AE/image-20240321220816246.png" alt="image-20240321220816246"></p>
+<h3 id="项目亮点"><a href="#项目亮点" class="headerlink" title="项目亮点"></a>项目亮点</h3><ol>
+<li>使用Redis实现了点赞和关注功能</li>
+<li>使用Kafka实现了异步的站内通知</li>
+<li>使用Spring Security实现了权限控制</li>
+</ol>
+<h3 id="项目难点"><a href="#项目难点" class="headerlink" title="项目难点"></a>项目难点</h3><p>难点感觉主要就是评论那一块的业务，评论表主要有这几个字段：id, user_id, entity_type, entity_id, target_id, content, status, create_time。首先评论这个表中有entity_type, entity_id, target_id这三个字段来确定评论的对象，entity_type字段（int型）1：表示此条评论是对帖子进行的一个评论，2：表示此条评论是对1级评论进行的2级评论；entityId字段（int型）如果entity_type字段为1则此字段存储的是帖子的id，如果entity_type字段为2则此字段存储的是对哪个1级评论进行的评论；targetId字段（int型）可为空，为空并且entityId为2则表示此评论没有哪个2级评论进行评论，不为空且entityId为2则表示此评论是对一个2级评论的回复评论。</p>
+<p>entity_type字段为1、表示是对帖子进行的评论</p>
+<p>entity_type字段为2、并且没有targetId字段信息，表示是对1级评论进行的评论</p>
+<p>entity_type字段为2、并且有targetId字段信息，表示是对2级评论进行的评论</p>
+<p>添加完评论之后，调用消息队列的生产者，在评论这个topic里添加消息，然后消费者就去处理这个消息，具体就是系统会给相关用户发一条系统通知，某某某给你评论了。</p>
+<p>提交表单，添加评论的时候用的</p>
+<h3 id="如何记录用户的登陆状态"><a href="#如何记录用户的登陆状态" class="headerlink" title="如何记录用户的登陆状态"></a>如何记录用户的登陆状态</h3><p>用户输入用户名，密码提交之后，会给用户创建一个ticket，并放入cookie返回给浏览器，下一次访问时，浏览器会自动带上这个含有ticket的cookie，服务端可以根据cookie确定用户的登陆状态，以及根据ticket查询到用户id，就可以知道用户的信息了。</p>
+<p>最开始，是建了一个login_ticket表，里面存储用户的id，ticket，过期时间，以及用户状态。然后之后这部分就用Redis来实现了</p>
+<p>怎么用Redis实现的：</p>
+<p>就是把使用uuid生成的ticket作为key，然后用户登录凭证的一些信息作为value，</p>
+<h3 id="为什么使用Redis"><a href="#为什么使用Redis" class="headerlink" title="为什么使用Redis"></a>为什么使用Redis</h3><p>因为Redis它把数据存储在内存中，读写新能很好，就比如说我存储用户的登录凭证，以及根据这个凭证查询用户信息，这个访问的频率是非常高的，如果都去访问数据库，会给数据库带来很大的压力，所以用Redis可以改善这一块的问题。</p>
+<h3 id="拦截器的使用"><a href="#拦截器的使用" class="headerlink" title="拦截器的使用"></a>拦截器的使用</h3><p>在请求开始时查询登录用户，在本次请求中持有用户数据</p>
+<p>使用拦截器Interceptor来拦截所有的用户请求，判断请求中的cookie是否存在有效的ticket，如果有的话就将查询用户信息并将用户的信息写入ThreadLocal在本次请求中持有用户，将每个线程的threadLocal都存到一个叫做hostHolder的实例中，根据这个实例就可以在本次请求中全局任意的位置获取用户信息。</p>
+<blockquote>
+<p>redis是存储用户登录的状态，是在用户登录之后，跨不同的请求的，而使用ThreadLocal具体针对的是一次请求，在这次请求中去存储用户信息，方便程序的开发，比如说我请求了帖子详情页面，去做评论或者回复，就可以直接从threadLocal中取到用户的信息，进行编码。</p>
+</blockquote>
+<h3 id="如何理解生产者，消费者"><a href="#如何理解生产者，消费者" class="headerlink" title="如何理解生产者，消费者"></a>如何理解生产者，消费者</h3><p>生产者发消息是主动调用，消费者接受消息是被动调用的过程</p>
+<h3 id="为什么用消息队列，好处"><a href="#为什么用消息队列，好处" class="headerlink" title="为什么用消息队列，好处"></a>为什么用消息队列，好处</h3><p>首先是解耦，可以在不同的主题中去放入消息，然后消费者去处理不同主题中的消息</p>
+<p>然后主要是异步通信，就是用户可能不需要立即去处理这个消息，就使用异步处理机制，先把消息放入队列，然后就可以处理其他的事情了，让消费者去处理这个主题里面的消息。</p>
+<p>还有就是提高峰值处理能力，使关键组件能够顶住突发的访问压力。</p>
+<h3 id="如何使用Kafka做系统通知"><a href="#如何使用Kafka做系统通知" class="headerlink" title="如何使用Kafka做系统通知"></a>如何使用Kafka做系统通知</h3><p>当触发点赞关注评论这些事件时，生产者就生产消息，放到消息队列中，然后消费者监听到消息之后，将消息队列中的事件取出，然后封装成Message对象，就是系统发送给用户的被点赞，被关注这一类的系统消息，然后持久化到数据库中保存。</p>
+<h3 id="私信"><a href="#私信" class="headerlink" title="私信"></a>私信</h3><p>私信有个message表，表中有以下字段：id, from_id, to_id, conversion_id, content, status, create_time</p>
+<p>from_id：112，to_id：111，则conversion_id就是111_112，不管谁发给谁，id小的在前面</p>
+<p>from_id为1表示系统通知</p>
+<h3 id="Spring-aop记录日志"><a href="#Spring-aop记录日志" class="headerlink" title="Spring aop记录日志"></a>Spring aop记录日志</h3><p>aop实现对service层所有的业务方法记录日志</p>
+<p>使用前置通知</p>
+<p>@Aspect 标记ServiceLogAspect为切面类</p>
+<p>@Pointcut标记service的所有方法</p>
+<p>@Before表示在所有业务层方法直接执行前置通知</p>
+<h3 id="点赞"><a href="#点赞" class="headerlink" title="点赞"></a>点赞</h3><p>使用Redis实现点赞功能</p>
+<ul>
+<li>支持对帖子、评论点赞</li>
+<li>第一次点赞，第2次取消点赞(判断userId在不在set集合中，就可以判断用户有否点过赞，如果已经点过赞了，就将用户从集合中删除)</li>
+</ul>
+<h3 id="关注"><a href="#关注" class="headerlink" title="关注"></a>关注</h3><p>使用Redis实现了每一个用户的粉丝列表，以及每一个用户的关注列表。</p>
+<p>Redis zset实现共同关注 ：取交集 ： sinter myset2 myset3</p>
+<p>使用zset以当前时间作为分数排序</p>
+<h3 id="引入Spring-Security"><a href="#引入Spring-Security" class="headerlink" title="引入Spring Security"></a>引入Spring Security</h3><p>Spring Security是一个专注与为Java应用程序提供身份认证和授权的框架。</p>
+<p>防止CSRF攻击，跨站请求仿造：</p>
+<ul>
+<li>CSRF攻击：某网站盗取你的Cookie（ticket）凭证，模拟你的身份访问服务器。（发生在提交表单的时候）</li>
+<li>Security会在表单里增加一个TOCKEN(自动生成)</li>
+<li>基于 CSRF 的工作流程，进行 CSRF 保护的基本思想就是为系统中的每一个连接请求加上一个随机值，我们称之为 csrf_token。这样，当用户向网站 A 发送请求时，网站 A 在生成的 Cookie 中就会设置一个 csrf_token 值。而在浏览器发送请求时，提交的表单数据中也有一个隐藏的 csrf_token 值，这样网站 A 接收到请求后，一方面从 Cookie 中提取出 csrf_token，另一方面也从表单提交的数据中获取隐藏的 csrf_token，将两者进行比对，如果不一致就代表这就是一个伪造的请求。</li>
+</ul>
+<h3 id="参考链接-1"><a href="#参考链接-1" class="headerlink" title="参考链接"></a>参考链接</h3><p><a href="https://blog.csdn.net/weixin_41927235/article/details/104070082">牛客高级项目课之牛客讨论区——项目总结_牛客论坛技术文档-CSDN博客</a></p>
+<p><a href="https://blog.csdn.net/qq_35484331/article/details/125042339">仿牛客社区项目描述_仿牛客网论坛项目简历-CSDN博客</a></p>
+<p><a href="https://blog.csdn.net/weixin_48610702/article/details/115859656">Java牛客网社区项目——知识点&amp;面试题_牛客论坛项目 面试-CSDN博客</a></p>
+<p><a href="https://www.cnblogs.com/nevererror/category/2152293.html">仿牛客网社区项目 - 随笔分类 - 卷皇 - 博客园 (cnblogs.com)</a></p>
+<h2 id="黑马点评"><a href="#黑马点评" class="headerlink" title="黑马点评"></a>黑马点评</h2><h3 id="项目中哪些场景使用了redis？"><a href="#项目中哪些场景使用了redis？" class="headerlink" title="项目中哪些场景使用了redis？"></a>项目中哪些场景使用了redis？</h3><p><img src="/2024/03/24/%E6%8B%BF%E4%B8%8B%E9%A1%B9%E7%9B%AE/image-20240329150443387.png" alt="image-20240329150443387"></p>
+<h3 id="乐观锁解决超卖问题"><a href="#乐观锁解决超卖问题" class="headerlink" title="乐观锁解决超卖问题"></a>乐观锁解决超卖问题</h3><p>扣减库存是和之前查询到的库存是一样的，就是说没人在中间修改过库存，这种情况下就可以修改，但是这样效率比较低，很多人同时下单的话就会有很多自旋，所以判断条件就改成如果扣减库存时，库存大于0就扣减。</p>
+<h3 id="分布式锁解决一人一单问题"><a href="#分布式锁解决一人一单问题" class="headerlink" title="分布式锁解决一人一单问题"></a>分布式锁解决一人一单问题</h3><p>核心思路：</p>
+<p>我们利用redis 的setNx 方法，当有多个线程进入时，我们就利用该方法，第一个线程进入时，redis 中就有这个key 了，返回了1，如果结果是1，则表示他抢到了锁，那么他去执行业务，然后再删除锁，退出锁逻辑，没有抢到锁的哥们，等待一定时间后重试即可。</p>
+<h3 id="秒杀优化-异步秒杀思路"><a href="#秒杀优化-异步秒杀思路" class="headerlink" title="秒杀优化-异步秒杀思路"></a>秒杀优化-异步秒杀思路</h3><p>下单流程</p>
+<p>1、查询优惠卷</p>
+<p>2、判断秒杀库存是否足够</p>
+<p>3、查询订单</p>
+<p>4、校验是否是一人一单</p>
+<p>5、扣减库存</p>
+<p>6、创建订单</p>
+<p>我们现在来看看整体思路：当用户下单之后，判断库存是否充足只需要导redis中去根据key找对应的value是否大于0即可，如果不充足，则直接结束，如果充足，继续在redis中判断用户是否可以下单，如果set集合中没有这条数据，说明他可以下单，如果set集合中没有这条记录，则将userId和优惠卷存入到redis中，并且返回0，整个过程需要保证是原子性的，我们可以使用lua来操作</p>
+<ul>
+<li><p>新增秒杀优惠券的同时，将优惠券信息保存到Redis中</p>
+</li>
+<li><p>基于Lua脚本，判断秒杀库存、一人一单，决定用户是否抢购成功</p>
+</li>
+<li><p>如果抢购成功，将优惠券id和用户id封装后存入消息队列</p>
+</li>
+<li><p>开启线程任务，不断从阻塞队列中获取信息，实现异步下单功能</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>秋招</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>拿下面试</title>
+    <url>/2024/03/24/%E6%8B%BF%E4%B8%8B%E9%9D%A2%E8%AF%95/</url>
+    <content><![CDATA[<hr>
+<p>面试技巧及面经汇总</p>
+<span id="more"></span>
+
+
+
+<h2 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h2><ol>
+<li>回答可以结合项目，项目中是怎么用的</li>
+<li>要先说结论，让面试官知道你知道</li>
+<li></li>
+</ol>
+]]></content>
+      <categories>
+        <category>秋招</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>暑期实习</title>
+    <url>/2024/03/28/%E6%9A%91%E6%9C%9F%E5%AE%9E%E4%B9%A0/</url>
+    <content><![CDATA[<hr>
+<p>面试情况汇总</p>
+<span id="more"></span>
+
+]]></content>
+      <categories>
+        <category>暑期实习</category>
+      </categories>
+  </entry>
+  <entry>
     <title>新建文章模板修改</title>
     <url>/2024/01/22/%E6%96%B0%E5%BB%BA%E6%96%87%E7%AB%A0%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9/</url>
     <content><![CDATA[<p>使用hexo new命令新建文章时，会生成出来一个模板，下面是对模板进行修改的操作</p>
@@ -1730,6 +1878,20 @@ ROLLBACK;
 <p>参考文章：</p>
 <p><a href="https://zhuanlan.zhihu.com/p/132823826">使用hexo新建、编辑并预览文章 - 知乎 (zhihu.com)</a></p>
 <p><a href="https://hexo.io/docs/configuration#Writing">配置 |Hexo的</a></p>
+]]></content>
+      <categories>
+        <category>博客</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>草稿</title>
+    <url>/2024/01/22/%E8%8D%89%E7%A8%BF/</url>
+    <content><![CDATA[<p>使用<code>hexo n draft draft1</code>命令将在<code>source\</code>目录下创建<code>_drafts</code>目录，并生成一个<code>draft1.md</code>文件。</p>
+<p>当你编辑完草稿后，可以把文章推送到<code>_posts</code>目录下，通过下面的命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo publish &lt;file_name&gt;</span><br></pre></td></tr></table></figure>
+
+<p>可以使用<code>hexo --draft</code>命令可以查看已有草稿。</p>
+<p>想要在本地预览草稿的静态文件，也需要在生成静态文件时加上<code>draft</code>参数。</p>
 ]]></content>
       <categories>
         <category>博客</category>
@@ -1774,20 +1936,6 @@ ROLLBACK;
 
 
 <h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p><a href="https://blog.csdn.net/weixin_58068682/article/details/116611715">Hexo博客技巧：添加自定义html页面_hexo里html-CSDN博客</a></p>
-]]></content>
-      <categories>
-        <category>博客</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>草稿</title>
-    <url>/2024/01/22/%E8%8D%89%E7%A8%BF/</url>
-    <content><![CDATA[<p>使用<code>hexo n draft draft1</code>命令将在<code>source\</code>目录下创建<code>_drafts</code>目录，并生成一个<code>draft1.md</code>文件。</p>
-<p>当你编辑完草稿后，可以把文章推送到<code>_posts</code>目录下，通过下面的命令：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo publish &lt;file_name&gt;</span><br></pre></td></tr></table></figure>
-
-<p>可以使用<code>hexo --draft</code>命令可以查看已有草稿。</p>
-<p>想要在本地预览草稿的静态文件，也需要在生成静态文件时加上<code>draft</code>参数。</p>
 ]]></content>
       <categories>
         <category>博客</category>
@@ -1844,7 +1992,7 @@ ROLLBACK;
 <p><a href="https://blog.csdn.net/2301_78958943/article/details/135129400?spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-1-135129400-blog-89813160.235%5Ev43%5Epc_blog_bottom_relevance_base8&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-1-135129400-blog-89813160.235%5Ev43%5Epc_blog_bottom_relevance_base8&utm_relevant_index=2">请求从前端到后端的过程(概述)_前端发送请求到后端全过程-CSDN博客</a></p>
 ]]></content>
       <categories>
-        <category>项目</category>
+        <category>JAVA</category>
       </categories>
   </entry>
   <entry>
