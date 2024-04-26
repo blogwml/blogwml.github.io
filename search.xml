@@ -569,6 +569,43 @@
       </categories>
   </entry>
   <entry>
+    <title>Java常用函数</title>
+    <url>/2024/03/30/Java%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0/</url>
+    <content><![CDATA[<hr>
+<p>Java常用集和，字符串api，idea使用小技巧</p>
+<span id="more"></span>
+
+
+
+<h3 id="Java中map-getOrDefault-方法的使用"><a href="#Java中map-getOrDefault-方法的使用" class="headerlink" title="Java中map.getOrDefault()方法的使用"></a>Java中map.getOrDefault()方法的使用</h3><p>Map.getOrDefault(Object key, V defaultValue)</p>
+<p>作用：在map集合中有这个key时，就用这个key的val；如果没有就使用defaultValue默认值</p>
+<p>代码示例：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">HashMap&lt;String, String&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">map.put(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;cookie&quot;</span>);</span><br><span class="line">map.put(<span class="string">&quot;age&quot;</span>, <span class="string">&quot;18&quot;</span>);</span><br><span class="line">map.put(<span class="string">&quot;sex&quot;</span>, <span class="string">&quot;女&quot;</span>);</span><br><span class="line"><span class="type">String</span> <span class="variable">name</span> <span class="operator">=</span> map.getOrDefault(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;random&quot;</span>);</span><br><span class="line">System.out.println(name);<span class="comment">// cookie，map中存在name,获得name对应的value</span></span><br><span class="line"><span class="type">int</span> <span class="variable">score</span> <span class="operator">=</span> map.getOrDefault(<span class="string">&quot;score&quot;</span>, <span class="number">80</span>);</span><br><span class="line">System.out.println(score);<span class="comment">// 80，map中不存在score,使用默认值80</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="Java集和与数组互转"><a href="#Java集和与数组互转" class="headerlink" title="Java集和与数组互转"></a>Java集和与数组互转</h3><p><strong>集和转为数组：</strong></p>
+<p>使用集和的toArray(T[] array)方法，传入的是类型完全一致、长度为 0 的空数组。</p>
+<p>错误点：直接使用 toArray 无参方法存在问题，此方法返回值只能是 Object[]类，若强转其它类型数组将出现ClassCastException 错误。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;String&gt; list=<span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">list.add(<span class="string">&quot;aa&quot;</span>);</span><br><span class="line">list.add(<span class="string">&quot;bb&quot;</span>);</span><br><span class="line">list.add(<span class="string">&quot;cc&quot;</span>);</span><br><span class="line"><span class="comment">// 使用无参的toArray()方法，默认的返回类型是Object []</span></span><br><span class="line">Object[] objects = list.toArray();</span><br></pre></td></tr></table></figure>
+
+<p>如果是集和转二维数组，传入类型长度也可以是0，如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;<span class="type">int</span>[]&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">list.toArray(<span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">0</span>][]);</span><br></pre></td></tr></table></figure>
+
+<p>说明：使用 toArray 带参方法，数组空间大小的 length：<br>1） <strong>等于 0，动态创建与 size 相同的数组，性能最好。</strong><br>2） 大于 0 但小于 size，重新创建大小等于 size 的数组，增加 GC 负担。<br>3） 等于 size，在高并发情况下，数组创建完成之后，size 正在变大的情况下，负面影响与 2 相同。<br>4） 大于 size，空间浪费，且在 size 处插入 null 值，存在 NPE 隐患</p>
+<p><strong>数组转集和：</strong></p>
+<p>Arrays.asList()返回的实际上是一个<strong>不允许修改其结构的List</strong>，当前希望对返回的List进行修改结构操作时，按照下面的方式即可：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Integer [] arr2=&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;;</span><br><span class="line"><span class="comment">//  传入的参数类型为 Integer时，返回泛型参数就是Integer</span></span><br><span class="line">List&lt;Integer&gt; list2 = Arrays.asList(arr2);</span><br><span class="line"></span><br><span class="line"><span class="comment">//  新建一个java.util包下的List的实现类即可</span></span><br><span class="line">List&lt;Integer&gt; list=<span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(list2);</span><br><span class="line">list.add(<span class="number">4</span>);</span><br><span class="line">System.out.println(list);</span><br></pre></td></tr></table></figure>
+
+<h3 id="idea同时编辑多行"><a href="#idea同时编辑多行" class="headerlink" title="idea同时编辑多行"></a>idea同时编辑多行</h3><ol>
+<li><em>按住Alt 然后按住鼠标左键拖动光标,就可以同时输入了</em></li>
+<li><em>按住Alt+Shift,然后点击鼠标左键,就可以让光标出现在多个位置,同时编辑</em></li>
+</ol>
+]]></content>
+      <categories>
+        <category>JAVA</category>
+      </categories>
+  </entry>
+  <entry>
     <title>MySQL基础</title>
     <url>/2024/02/15/MySQL%E5%9F%BA%E7%A1%80/</url>
     <content><![CDATA[<hr>
@@ -1234,143 +1271,53 @@ ROLLBACK;
       </categories>
   </entry>
   <entry>
-    <title>Hello World</title>
-    <url>/2024/01/17/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-  </entry>
-  <entry>
-    <title>信息订阅聚合工具</title>
-    <url>/2024/01/24/%E4%BF%A1%E6%81%AF%E8%AE%A2%E9%98%85%E8%81%9A%E5%90%88%E5%B7%A5%E5%85%B7/</url>
-    <content><![CDATA[<p>信息聚合app和网站</p>
-<span id="more"></span>
-
-<h3 id="QiReader——基于Web的全平台RSS阅读器"><a href="#QiReader——基于Web的全平台RSS阅读器" class="headerlink" title="QiReader——基于Web的全平台RSS阅读器"></a>QiReader——基于Web的全平台RSS阅读器</h3><p><a href="https://www.v2ex.com/t/834418">2022 还有人用 RSS 吗？我做了一个 RSS 服务: QiReader - 全平台 RSS 阅读器 (PWA) - V2EX</a></p>
-<p>没有app，只有网页端</p>
-<p>网站链接：</p>
-<p><a href="https://www.qireader.com.cn/">全部订阅源 - Qi Reader</a></p>
-<h3 id="今日热榜"><a href="#今日热榜" class="headerlink" title="今日热榜"></a>今日热榜</h3><p><a href="https://tophub.today/">今日热榜官网 (tophub.today)</a></p>
-<p><a href="https://tophub.app/">https://tophub.app【备用域名】</a></p>
-<p>app、网页端</p>
-<h3 id="摸鱼kik"><a href="#摸鱼kik" class="headerlink" title="摸鱼kik"></a>摸鱼kik</h3><p>app、windows</p>
-<p><a href="https://moyukik.sohu.com/">摸鱼kik-每刻都值得摸鱼 (sohu.com)</a></p>
-]]></content>
-      <categories>
-        <category>工具</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>博客菜单设置</title>
-    <url>/2024/01/21/%E5%8D%9A%E5%AE%A2%E8%8F%9C%E5%8D%95%E8%AE%BE%E7%BD%AE/</url>
-    <content><![CDATA[<p>分类、标签等菜单栏设置</p>
-<span id="more"></span>
-
-
-
-<h3 id="设置菜单"><a href="#设置菜单" class="headerlink" title="设置菜单"></a>设置菜单</h3><p>打开主题配置文件即themes&#x2F;next下的_config.yml，查找menu，将前面的#删除就行了：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">menu:</span><br><span class="line">  home: / || home                      #首页</span><br><span class="line">  archives: /archives/ || archive      #归档</span><br><span class="line">  categories: /categories/ || th       #分类</span><br><span class="line">  tags: /tags/ || tags                 #标签</span><br><span class="line">  about: /about/ || user               #关于</span><br><span class="line">  resources: /resources/ || download   #资源</span><br><span class="line">  # schedule: /schedule/ || calendar    #日历</span><br><span class="line">  # sitemap: /sitemap.xml || sitemap    #站点地图，供搜索引擎爬取</span><br><span class="line">  # commonweal: /404/ || heartbeat      #腾讯公益404</span><br></pre></td></tr></table></figure>
-
-<p>“||”前面的是目标链接，后面的是图标名称，next使用的图标全是<a href="https://fontawesome.com.cn/search-download">图标库 - Font Awesome 中文网</a> 这一网站的，有想用的图标直接在fontawesome上面找图标的名称就行。resources 是我自己添加的。</p>
-<p><strong>新添加的菜单需要翻译对应的中文，打开 <code>theme/next/languages/zh-CN.yml</code>，在 menu 下设置：</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">menu:</span><br><span class="line">  home: 首页</span><br><span class="line">  archives: 归档</span><br><span class="line">  categories: 分类</span><br><span class="line">  tags: 标签</span><br><span class="line">  about: 关于</span><br><span class="line">  resources: 资源</span><br><span class="line">  search: 搜索</span><br></pre></td></tr></table></figure>
-
-
-
-<p>在根目录下打开 <code>Git Bash</code>，输入如下代码：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo new page &quot;categories&quot;</span><br><span class="line">hexo new page &quot;tags&quot;</span><br><span class="line">hexo new page &quot;about&quot;</span><br><span class="line">hexo new page &quot;resources&quot;</span><br></pre></td></tr></table></figure>
-
-<p>此时在根目录的sources文件夹下会生成categories、tags、about、resources四个文件，每个文件中有一个 <code>index.md</code> 文件，修改内容分别如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: 分类</span><br><span class="line">date: 2020-02-10 22:07:08</span><br><span class="line">type: &quot;categories&quot;</span><br><span class="line">comments: false</span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line">title: 标签</span><br><span class="line">date: 2020-02-10 22:07:08</span><br><span class="line">type: &quot;tags&quot;</span><br><span class="line">comments: false</span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line">title: 关于</span><br><span class="line">date: 2020-02-10 22:07:08</span><br><span class="line">type: &quot;about&quot;</span><br><span class="line">comments: false</span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line">title: 资源</span><br><span class="line">date: 2020-02-10 22:07:08</span><br><span class="line">type: &quot;resources&quot;</span><br><span class="line">comments: false</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-
-<p> 注：如果有启用评论，默认页面带有评论。需要关闭的话，添加字段 comments 并将值设置为false。</p>
-<h3 id="给文章添加标签、分类"><a href="#给文章添加标签、分类" class="headerlink" title="给文章添加标签、分类"></a>给文章添加标签、分类</h3><p>新建好文章文档，如下方式设置文章的标签和分类</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">博客菜单设置</span></span><br><span class="line"><span class="attr">date:</span> <span class="number">2024-01-21 20:49:18</span></span><br><span class="line"><span class="attr">tags:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">第一个标签</span></span><br><span class="line"><span class="attr">categories:</span> </span><br><span class="line"><span class="bullet">-</span> <span class="string">test</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">二级分类</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>上面分类为二级分类，test分类下的二级分类</strong>。可同时设置多标签，但只能有一个分类</p>
-<p>tip：删除标签的话，将含有该标签的文章删除或更改为其他标签，hexo clean后就删除了</p>
-]]></content>
-      <categories>
-        <category>博客</category>
-      </categories>
-      <tags>
-        <tag>第一个标签</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>博客插入图片</title>
-    <url>/2024/01/28/%E5%8D%9A%E5%AE%A2%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87/</url>
+    <title>ThreadLocal解析</title>
+    <url>/2024/04/04/ThreadLocal%E8%A7%A3%E6%9E%90/</url>
     <content><![CDATA[<hr>
-<p>博客插入图片设置与教程</p>
+<p>ThreadLocal实现原理</p>
 <span id="more"></span>
 
-
-
-<p>众所周知，在md文件中插入图片的语法为<code>![]()</code>。</p>
-<p>其中<strong>方括号</strong>是图片描述，<strong>圆括号</strong>是图片路径。</p>
-<p>一般来说有三种图片路径，分别是<strong>相对路径，绝对路径和网络路径</strong>。</p>
-<p>所谓的网络路径就是直接引用网上的图片，直接复制图片地址，放在圆括号中就完事了。</p>
-<p>这种方式十分的方便，但是也存在一定的问题：</p>
+<p>ThreadLocal是多线程中对于解决线程安全的一个操作类，它会为每个线程都分配一个独立的线程副本从而解决了变量并发访问冲突的问题。ThreadLocal 同时实现了线程内的资源共享</p>
+<h2 id="ThreadLocal三个主要方法"><a href="#ThreadLocal三个主要方法" class="headerlink" title="ThreadLocal三个主要方法"></a>ThreadLocal三个主要方法</h2><p>三个主要方法：</p>
 <ul>
-<li>图片失效导致无法加载；</li>
-<li>打开网页后要再请求加载图片；</li>
-<li>原网站限制，如微信公众号的图片会变得不可见等。</li>
+<li><p>set(value) 设置值</p>
+</li>
+<li><p>get() 获取值</p>
+</li>
+<li><p>remove() 清除值</p>
+</li>
 </ul>
-<p>这种方式算是有利有弊。</p>
-<p>绝对路径是图片在计算机中的绝对位置，相对路径是相对于当前文件的路径。</p>
-<p>由于我们的博客是要部署在网站上，部署后会生成新的文件目录，所以我们选择使用相对路径的方式。</p>
-<p>在hexo中使用<strong>文章资源文件夹</strong>需要在<code>config.yaml</code>文件中更改一下配置：</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p><strong>使用示例：</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ThreadLocalTest</span> &#123;</span><br><span class="line">    <span class="keyword">static</span> ThreadLocal&lt;String&gt; threadLocal = <span class="keyword">new</span> <span class="title class_">ThreadLocal</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">Thread</span>(() -&gt; &#123;</span><br><span class="line">            <span class="type">String</span> <span class="variable">name</span> <span class="operator">=</span> Thread.currentThread().getName();</span><br><span class="line">            threadLocal.set(<span class="string">&quot;itcast&quot;</span>);</span><br><span class="line">            print(name);</span><br><span class="line">            System.out.println(name + <span class="string">&quot;-after remove : &quot;</span> + threadLocal.get());</span><br><span class="line">        &#125;, <span class="string">&quot;t1&quot;</span>).start();</span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">Thread</span>(() -&gt; &#123;</span><br><span class="line">            <span class="type">String</span> <span class="variable">name</span> <span class="operator">=</span> Thread.currentThread().getName();</span><br><span class="line">            threadLocal.set(<span class="string">&quot;itheima&quot;</span>);</span><br><span class="line">            print(name);</span><br><span class="line">            System.out.println(name + <span class="string">&quot;-after remove : &quot;</span> + threadLocal.get());</span><br><span class="line">        &#125;, <span class="string">&quot;t2&quot;</span>).start();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">print</span><span class="params">(String str)</span> &#123;</span><br><span class="line">        <span class="comment">//打印当前线程中本地内存中本地变量的值</span></span><br><span class="line">        System.out.println(str + <span class="string">&quot; :&quot;</span> + threadLocal.get());</span><br><span class="line">        <span class="comment">//清除本地内存中的本地变量</span></span><br><span class="line">        threadLocal.remove();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>当该配置被应用后，使用<code>hexo new</code>命令创建新文章时，会生成相同名字的文件夹，也就是文章资源文件夹。</p>
-<blockquote>
-<p>由于项目会生成新的文件目录，同时会解析Markdown中的图片路径，会导致一个问题。<br>如在一个文件目录下，博客名为<code>1.md</code>，相应的存在一个<code>1</code>文件夹存放图片<code>image.jpg</code>。<br>在Typora编辑器中，普通的md文件使用<code>![](1/image.jpg)</code>能在编辑器中正常显示图片。<br>在hexo中，按理说应该是使用<code>![](image.jpg)</code>，但网页中却无法正常显示。<br>此时应该使用这样的方式来引入图片：</p>
-
-</blockquote>
-<p>虽然可以正常引用图片了，但是这种引用图片的方式只有一句话能形容，wtf。</p>
-<h2 id="图片插件"><a href="#图片插件" class="headerlink" title="图片插件"></a><strong>图片插件</strong></h2><p>插件<a href="https://link.zhihu.com/?target=https://github.com/hexojs/hexo-renderer-marked">hexo-renderer-marked</a>解决了这个问题。可以只用<code>npm install hexo-renderer-marked</code>命令直接安装，之后在<code>config.yaml</code>中更改配置如下：</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">marked:</span></span><br><span class="line">  <span class="attr">prependRoot:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">postAsset:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-
-<p>之后就可以在使用<code>![](image.jpg)</code>的方式愉快的插入图片了。</p>
-<p>我们做了这么多都是为了方便，那么为什么不再方便一点呢。</p>
-<h2 id="hexo与Typora的完美结合"><a href="#hexo与Typora的完美结合" class="headerlink" title="hexo与Typora的完美结合"></a><strong>hexo与Typora的完美结合</strong></h2><p>上述是从文章资源文件夹中引用图片，前提是<strong>先将图片放入到文章资源文件夹</strong>，如果图片数量众多的话，一张一张的放很影响效率。但是不用怕，我们有很方便的解决方法。</p>
-<p><strong>Typora</strong>是我非常喜欢的Markdown文本编辑器，在之前的文章中也介绍过一点。</p>
-<p>Typora对于插入图片的支持做得非常好，在<code>文件-&gt;偏好设置</code>或者直接<code>&lt;C-,&gt;</code>进入设置。</p>
-<p><img src="/2024/01/28/%E5%8D%9A%E5%AE%A2%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87/v2-52220b2dba6901ee2181b72951d25a7b_720w.webp" alt="img"></p>
-<p>使用该配置后，可以直接复制网页中的图片地址，粘贴到Typora中后，会直接复制该图片到文章资源文件夹，同时自动更改路径。</p>
-<p>如复制网络路径的图片<code>https://...../image.jpg</code>粘贴到Typora中叫<code>文章名</code>的文章后，图片会自动变为<code>![](文章名/image.jpg)</code>。</p>
-<p>但我们知道部署后，文件路径是不同的，所以当我们插入完所有的图片后，我们还需要删除每个图片路径中的<code>文件名/</code>。不慌，也很简单。</p>
-<p>在Typora编辑器中，使用<code>&lt;C-f&gt;</code>快捷键，将所有的<code>文章名/</code>替换为空即可删除。</p>
-<p><img src="/2024/01/28/%E5%8D%9A%E5%AE%A2%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87/v2-9202796d27f4659d96ff13b11e6808c1_720w.png" alt="img"></p>
-<p>然后再将博客上传，图片就会随着文章一起打包。在网页中就可以看到正常显示的图片，大功告成。</p>
-<p>————-本地预览不显示图片的问题—————-</p>
-<p>在typora的设置中选择图片工具，为文章设置一个图片根目录。设置方式如下，之后选中存放图片的目录即可，根据不同版本的typora该设置项可以能在不能的位置。</p>
-<p><img src="/2024/01/28/%E5%8D%9A%E5%AE%A2%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87/v2-8d28ac51aedad913907c45b4907d325f_720w.webp" alt="img"></p>
-<p>格式 -&gt; 图片工具 -&gt; 设置图片根目录</p>
-<p>————再更————</p>
-<p>为了方便，可以在<code>scaffolds -&gt; post</code>中添加如下设置。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">typora-root-url:</span> &#123;&#123; <span class="string">title</span> &#125;&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这样每次执行hexo new命令新建文章的时候，会在Front Matter中自动添加该配置，如下：</p>
-<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">typora-root-url: hexo图片显示问题</span><br></pre></td></tr></table></figure>
-
-<p>至此，在本地和服务器的图片都能正常预览。</p>
-<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://zhuanlan.zhihu.com/p/265077468">hexo博客如何插入图片 - 知乎 (zhihu.com)</a></p>
-<p><a href="https://blog.csdn.net/u014155600/article/details/128950724">hexo文章插入图片方法小结_hexo 图片-CSDN博客</a></p>
+<h3 id="set"><a href="#set" class="headerlink" title="set"></a>set</h3><p><img src="/2024/04/04/ThreadLocal%E8%A7%A3%E6%9E%90/image-20230505224626253.png" alt="image-20230505224626253"></p>
+<h3 id="get方法-remove方法"><a href="#get方法-remove方法" class="headerlink" title="get方法&#x2F;remove方法"></a>get方法&#x2F;remove方法</h3><p><img src="/2024/04/04/ThreadLocal%E8%A7%A3%E6%9E%90/image-20230505224715087.png" alt="image-20230505224715087"></p>
+<h2 id="Thread、THreadLocal、ThreadLocalMap之间关系"><a href="#Thread、THreadLocal、ThreadLocalMap之间关系" class="headerlink" title="Thread、THreadLocal、ThreadLocalMap之间关系"></a>Thread、THreadLocal、ThreadLocalMap之间关系</h2><p><img src="/2024/04/04/ThreadLocal%E8%A7%A3%E6%9E%90/image-20240404193933930.png" alt="image-20240404193933930"></p>
+<p><img src="/2024/04/04/ThreadLocal%E8%A7%A3%E6%9E%90/2b569b2f33904ad190946ebacb3ac87atplv-k3u1fbpfcp-zoom-in-crop-mark1512000.webp" alt="image.png"></p>
+<p>两个图像意思一样</p>
+<p>ThreadLocalMap是Thread线程的一个成员变量，ThreadLocal是维护ThreadLocalMap这个属性值的一个工具类。<em>Thread线程可以拥有多个ThreadLocal维护的自己线程独享的共享变量</em>。</p>
+<p><em>ThreadLocalMap中的Key是Threadlocal 对象，value是要存放的线程局部变量。</em></p>
+<p><em><strong>每个线程都有一个ThreadLocalMap成员变量，用ThreadLocal作为key，每个线程可以使用相同的ThreadLocal，那么就相当于把数据存放在自己Map的相同位置，如果还想再存一个，可以再定义一个ThreadLocal，使用set方法往Map里存。</strong></em></p>
+<p><em>换种描述理解：</em></p>
+<p><em>从图中我们可以当线程使用threadlocal 时，是将threadlocal当做当前线程thread的属性ThreadLocalMap 中的一个Entry的key值，实际上存放的变量是Entry的value值，我们实际要使用的值是value值。value值为什么不存在并发问题呢，因为它只有一个线程能访问。threadlocal我们可以当做一个索引看待，可以有多个threadlocal 变量，不同的threadlocal对应于不同的value值，他们之间互不影响。ThreadLocal为每一个线程都提供了变量的副本，使得每个线程在某一时间访问到的并不是同一个对象，这样就隔离了多个线程对数据的数据共享。</em></p>
+<h2 id="为什么不用Thread当作KEY-？取数据不是更加方便吗？"><a href="#为什么不用Thread当作KEY-？取数据不是更加方便吗？" class="headerlink" title="为什么不用Thread当作KEY ？取数据不是更加方便吗？"></a>为什么不用Thread当作KEY ？取数据不是更加方便吗？</h2><p>不可以，因为如果现在是只有一个Order对象操作，如果在家一个优惠券信息，那该怎么办？如果重新set不是就把原先的内容给覆盖了吗。</p>
+<h2 id="如何在ThreaLocalMap中重新添加一个第二个元素"><a href="#如何在ThreaLocalMap中重新添加一个第二个元素" class="headerlink" title="如何在ThreaLocalMap中重新添加一个第二个元素"></a>如何在ThreaLocalMap中重新添加一个第二个元素</h2><p>只需要 重新创建一个 <code>private ThreadLocal&lt;CardInfo&gt; cardInfoThreadLocal = new ThreadLocal&lt;&gt;();</code> 就可以了，这样当前线程就会有优惠券信息了</p>
+<h2 id="ThreadLocalMap发生Hash冲突怎么解决？"><a href="#ThreadLocalMap发生Hash冲突怎么解决？" class="headerlink" title="ThreadLocalMap发生Hash冲突怎么解决？"></a>ThreadLocalMap发生Hash冲突怎么解决？</h2><p>ThreadLocalMap 采用的是开放定址法，如果发生冲突，就往后找相邻的下一个节点，如果相邻的节点是空的，那么久直接存进去，如果不为空，继续往后查找，如果找到数据的最后也没有找到空的，就扩容</p>
+<h2 id="如果不想让很多变量里面塞到ThreadLocalMap中造成扩容，怎么办-？"><a href="#如果不想让很多变量里面塞到ThreadLocalMap中造成扩容，怎么办-？" class="headerlink" title="如果不想让很多变量里面塞到ThreadLocalMap中造成扩容，怎么办 ？"></a>如果不想让很多变量里面塞到ThreadLocalMap中造成扩容，怎么办 ？</h2><p>把ThreadLcoal的Value设置为Map值就行了</p>
+<h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><ol>
+<li>多线程处理订单，把提交的订单信息保存到ThreadLocal中，让每个线程处理自己的内容</li>
+<li>存储用户Session</li>
+<li>数据库连接，处理数据库事务</li>
+</ol>
+<h2 id="ThreadLocal-内存泄露的原因"><a href="#ThreadLocal-内存泄露的原因" class="headerlink" title="ThreadLocal 内存泄露的原因"></a>ThreadLocal 内存泄露的原因</h2><p>Entry将ThreadLocal作为Key，值作为value保存，它继承自WeakReference，注意构造函数里的第一行代码super(k)，这意味着ThreadLocal对象是一个「弱引用」</p>
+<p>每一个Thread维护一个ThreadLocalMap，在ThreadLocalMap中的Entry对象继承了WeakReference。其中key为使用弱引用的ThreadLocal实例，value为线程变量的副本</p>
+<p><img src="/2024/04/04/ThreadLocal%E8%A7%A3%E6%9E%90/image-20230505224857538.png" alt="image-20230505224857538"></p>
+<p>在使用ThreadLocal的时候，强烈建议：<strong>务必手动remove</strong></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://juejin.cn/post/6963646002150506533">深度解析ThreadLocal ? Key是当前线程？ - 掘金 (juejin.cn)</a></p>
+<p><a href="https://blog.csdn.net/u010445301/article/details/111322569">史上最全ThreadLocal 详解（一）-CSDN博客</a></p>
 ]]></content>
       <categories>
-        <category>博客</category>
+        <category>JAVA</category>
       </categories>
   </entry>
   <entry>
@@ -1502,6 +1449,24 @@ ROLLBACK;
       </categories>
   </entry>
   <entry>
+    <title>Hello World</title>
+    <url>/2024/01/17/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
     <title>hexo搭建个人博客</title>
     <url>/2024/01/17/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/</url>
     <content><![CDATA[<p>使用hexo搭建个人博客</p>
@@ -1593,6 +1558,128 @@ ROLLBACK;
       </categories>
   </entry>
   <entry>
+    <title>信息订阅聚合工具</title>
+    <url>/2024/01/24/%E4%BF%A1%E6%81%AF%E8%AE%A2%E9%98%85%E8%81%9A%E5%90%88%E5%B7%A5%E5%85%B7/</url>
+    <content><![CDATA[<p>信息聚合app和网站</p>
+<span id="more"></span>
+
+<h3 id="QiReader——基于Web的全平台RSS阅读器"><a href="#QiReader——基于Web的全平台RSS阅读器" class="headerlink" title="QiReader——基于Web的全平台RSS阅读器"></a>QiReader——基于Web的全平台RSS阅读器</h3><p><a href="https://www.v2ex.com/t/834418">2022 还有人用 RSS 吗？我做了一个 RSS 服务: QiReader - 全平台 RSS 阅读器 (PWA) - V2EX</a></p>
+<p>没有app，只有网页端</p>
+<p>网站链接：</p>
+<p><a href="https://www.qireader.com.cn/">全部订阅源 - Qi Reader</a></p>
+<h3 id="今日热榜"><a href="#今日热榜" class="headerlink" title="今日热榜"></a>今日热榜</h3><p><a href="https://tophub.today/">今日热榜官网 (tophub.today)</a></p>
+<p><a href="https://tophub.app/">https://tophub.app【备用域名】</a></p>
+<p>app、网页端</p>
+<h3 id="摸鱼kik"><a href="#摸鱼kik" class="headerlink" title="摸鱼kik"></a>摸鱼kik</h3><p>app、windows</p>
+<p><a href="https://moyukik.sohu.com/">摸鱼kik-每刻都值得摸鱼 (sohu.com)</a></p>
+]]></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>博客插入图片</title>
+    <url>/2024/01/28/%E5%8D%9A%E5%AE%A2%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87/</url>
+    <content><![CDATA[<hr>
+<p>博客插入图片设置与教程</p>
+<span id="more"></span>
+
+
+
+<p>众所周知，在md文件中插入图片的语法为<code>![]()</code>。</p>
+<p>其中<strong>方括号</strong>是图片描述，<strong>圆括号</strong>是图片路径。</p>
+<p>一般来说有三种图片路径，分别是<strong>相对路径，绝对路径和网络路径</strong>。</p>
+<p>所谓的网络路径就是直接引用网上的图片，直接复制图片地址，放在圆括号中就完事了。</p>
+<p>这种方式十分的方便，但是也存在一定的问题：</p>
+<ul>
+<li>图片失效导致无法加载；</li>
+<li>打开网页后要再请求加载图片；</li>
+<li>原网站限制，如微信公众号的图片会变得不可见等。</li>
+</ul>
+<p>这种方式算是有利有弊。</p>
+<p>绝对路径是图片在计算机中的绝对位置，相对路径是相对于当前文件的路径。</p>
+<p>由于我们的博客是要部署在网站上，部署后会生成新的文件目录，所以我们选择使用相对路径的方式。</p>
+<p>在hexo中使用<strong>文章资源文件夹</strong>需要在<code>config.yaml</code>文件中更改一下配置：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<p>当该配置被应用后，使用<code>hexo new</code>命令创建新文章时，会生成相同名字的文件夹，也就是文章资源文件夹。</p>
+<blockquote>
+<p>由于项目会生成新的文件目录，同时会解析Markdown中的图片路径，会导致一个问题。<br>如在一个文件目录下，博客名为<code>1.md</code>，相应的存在一个<code>1</code>文件夹存放图片<code>image.jpg</code>。<br>在Typora编辑器中，普通的md文件使用<code>![](1/image.jpg)</code>能在编辑器中正常显示图片。<br>在hexo中，按理说应该是使用<code>![](image.jpg)</code>，但网页中却无法正常显示。<br>此时应该使用这样的方式来引入图片：</p>
+
+</blockquote>
+<p>虽然可以正常引用图片了，但是这种引用图片的方式只有一句话能形容，wtf。</p>
+<h2 id="图片插件"><a href="#图片插件" class="headerlink" title="图片插件"></a><strong>图片插件</strong></h2><p>插件<a href="https://link.zhihu.com/?target=https://github.com/hexojs/hexo-renderer-marked">hexo-renderer-marked</a>解决了这个问题。可以只用<code>npm install hexo-renderer-marked</code>命令直接安装，之后在<code>config.yaml</code>中更改配置如下：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">marked:</span></span><br><span class="line">  <span class="attr">prependRoot:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">postAsset:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<p>之后就可以在使用<code>![](image.jpg)</code>的方式愉快的插入图片了。</p>
+<p>我们做了这么多都是为了方便，那么为什么不再方便一点呢。</p>
+<h2 id="hexo与Typora的完美结合"><a href="#hexo与Typora的完美结合" class="headerlink" title="hexo与Typora的完美结合"></a><strong>hexo与Typora的完美结合</strong></h2><p>上述是从文章资源文件夹中引用图片，前提是<strong>先将图片放入到文章资源文件夹</strong>，如果图片数量众多的话，一张一张的放很影响效率。但是不用怕，我们有很方便的解决方法。</p>
+<p><strong>Typora</strong>是我非常喜欢的Markdown文本编辑器，在之前的文章中也介绍过一点。</p>
+<p>Typora对于插入图片的支持做得非常好，在<code>文件-&gt;偏好设置</code>或者直接<code>&lt;C-,&gt;</code>进入设置。</p>
+<p><img src="/2024/01/28/%E5%8D%9A%E5%AE%A2%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87/v2-52220b2dba6901ee2181b72951d25a7b_720w.webp" alt="img"></p>
+<p>使用该配置后，可以直接复制网页中的图片地址，粘贴到Typora中后，会直接复制该图片到文章资源文件夹，同时自动更改路径。</p>
+<p>如复制网络路径的图片<code>https://...../image.jpg</code>粘贴到Typora中叫<code>文章名</code>的文章后，图片会自动变为<code>![](文章名/image.jpg)</code>。</p>
+<p>但我们知道部署后，文件路径是不同的，所以当我们插入完所有的图片后，我们还需要删除每个图片路径中的<code>文件名/</code>。不慌，也很简单。</p>
+<p>在Typora编辑器中，使用<code>&lt;C-f&gt;</code>快捷键，将所有的<code>文章名/</code>替换为空即可删除。</p>
+<p><img src="/2024/01/28/%E5%8D%9A%E5%AE%A2%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87/v2-9202796d27f4659d96ff13b11e6808c1_720w.png" alt="img"></p>
+<p>然后再将博客上传，图片就会随着文章一起打包。在网页中就可以看到正常显示的图片，大功告成。</p>
+<p>————-本地预览不显示图片的问题—————-</p>
+<p>在typora的设置中选择图片工具，为文章设置一个图片根目录。设置方式如下，之后选中存放图片的目录即可，根据不同版本的typora该设置项可以能在不能的位置。</p>
+<p><img src="/2024/01/28/%E5%8D%9A%E5%AE%A2%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87/v2-8d28ac51aedad913907c45b4907d325f_720w.webp" alt="img"></p>
+<p>格式 -&gt; 图片工具 -&gt; 设置图片根目录</p>
+<p>————再更————</p>
+<p>为了方便，可以在<code>scaffolds -&gt; post</code>中添加如下设置。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">typora-root-url:</span> &#123;&#123; <span class="string">title</span> &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样每次执行hexo new命令新建文章的时候，会在Front Matter中自动添加该配置，如下：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">typora-root-url: hexo图片显示问题</span><br></pre></td></tr></table></figure>
+
+<p>至此，在本地和服务器的图片都能正常预览。</p>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://zhuanlan.zhihu.com/p/265077468">hexo博客如何插入图片 - 知乎 (zhihu.com)</a></p>
+<p><a href="https://blog.csdn.net/u014155600/article/details/128950724">hexo文章插入图片方法小结_hexo 图片-CSDN博客</a></p>
+]]></content>
+      <categories>
+        <category>博客</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>博客菜单设置</title>
+    <url>/2024/01/21/%E5%8D%9A%E5%AE%A2%E8%8F%9C%E5%8D%95%E8%AE%BE%E7%BD%AE/</url>
+    <content><![CDATA[<p>分类、标签等菜单栏设置</p>
+<span id="more"></span>
+
+
+
+<h3 id="设置菜单"><a href="#设置菜单" class="headerlink" title="设置菜单"></a>设置菜单</h3><p>打开主题配置文件即themes&#x2F;next下的_config.yml，查找menu，将前面的#删除就行了：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">menu:</span><br><span class="line">  home: / || home                      #首页</span><br><span class="line">  archives: /archives/ || archive      #归档</span><br><span class="line">  categories: /categories/ || th       #分类</span><br><span class="line">  tags: /tags/ || tags                 #标签</span><br><span class="line">  about: /about/ || user               #关于</span><br><span class="line">  resources: /resources/ || download   #资源</span><br><span class="line">  # schedule: /schedule/ || calendar    #日历</span><br><span class="line">  # sitemap: /sitemap.xml || sitemap    #站点地图，供搜索引擎爬取</span><br><span class="line">  # commonweal: /404/ || heartbeat      #腾讯公益404</span><br></pre></td></tr></table></figure>
+
+<p>“||”前面的是目标链接，后面的是图标名称，next使用的图标全是<a href="https://fontawesome.com.cn/search-download">图标库 - Font Awesome 中文网</a> 这一网站的，有想用的图标直接在fontawesome上面找图标的名称就行。resources 是我自己添加的。</p>
+<p><strong>新添加的菜单需要翻译对应的中文，打开 <code>theme/next/languages/zh-CN.yml</code>，在 menu 下设置：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">menu:</span><br><span class="line">  home: 首页</span><br><span class="line">  archives: 归档</span><br><span class="line">  categories: 分类</span><br><span class="line">  tags: 标签</span><br><span class="line">  about: 关于</span><br><span class="line">  resources: 资源</span><br><span class="line">  search: 搜索</span><br></pre></td></tr></table></figure>
+
+
+
+<p>在根目录下打开 <code>Git Bash</code>，输入如下代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo new page &quot;categories&quot;</span><br><span class="line">hexo new page &quot;tags&quot;</span><br><span class="line">hexo new page &quot;about&quot;</span><br><span class="line">hexo new page &quot;resources&quot;</span><br></pre></td></tr></table></figure>
+
+<p>此时在根目录的sources文件夹下会生成categories、tags、about、resources四个文件，每个文件中有一个 <code>index.md</code> 文件，修改内容分别如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: 分类</span><br><span class="line">date: 2020-02-10 22:07:08</span><br><span class="line">type: &quot;categories&quot;</span><br><span class="line">comments: false</span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line">title: 标签</span><br><span class="line">date: 2020-02-10 22:07:08</span><br><span class="line">type: &quot;tags&quot;</span><br><span class="line">comments: false</span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line">title: 关于</span><br><span class="line">date: 2020-02-10 22:07:08</span><br><span class="line">type: &quot;about&quot;</span><br><span class="line">comments: false</span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line">title: 资源</span><br><span class="line">date: 2020-02-10 22:07:08</span><br><span class="line">type: &quot;resources&quot;</span><br><span class="line">comments: false</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<p> 注：如果有启用评论，默认页面带有评论。需要关闭的话，添加字段 comments 并将值设置为false。</p>
+<h3 id="给文章添加标签、分类"><a href="#给文章添加标签、分类" class="headerlink" title="给文章添加标签、分类"></a>给文章添加标签、分类</h3><p>新建好文章文档，如下方式设置文章的标签和分类</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">博客菜单设置</span></span><br><span class="line"><span class="attr">date:</span> <span class="number">2024-01-21 20:49:18</span></span><br><span class="line"><span class="attr">tags:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">第一个标签</span></span><br><span class="line"><span class="attr">categories:</span> </span><br><span class="line"><span class="bullet">-</span> <span class="string">test</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">二级分类</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>上面分类为二级分类，test分类下的二级分类</strong>。可同时设置多标签，但只能有一个分类</p>
+<p>tip：删除标签的话，将含有该标签的文章删除或更改为其他标签，hexo clean后就删除了</p>
+]]></content>
+      <categories>
+        <category>博客</category>
+      </categories>
+      <tags>
+        <tag>第一个标签</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>多线程基础</title>
     <url>/2024/02/03/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80/</url>
     <content><![CDATA[<hr>
@@ -1653,33 +1740,6 @@ ROLLBACK;
 ]]></content>
       <categories>
         <category>JAVA</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>拿下八股</title>
-    <url>/2024/03/24/%E6%8B%BF%E4%B8%8B%E5%85%AB%E8%82%A1/</url>
-    <content><![CDATA[<hr>
-<p>八股汇总</p>
-<span id="more"></span>
-
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://www.yuque.com/coding-guide/bckbvp/rl7g3i">我的八股文学习路线及攻略 (yuque.com)</a></p>
-<h2 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h2><h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><h3 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h3><p>缓存穿透是指查询一个不存在的数据，先在redis中查，redis中没有，然后向数据库中查，但是数据库中也没有，如果有大量这种请求都去查询数据库，会给数据库带来很大压力。</p>
-<p><strong>解决方法：</strong></p>
-<ol>
-<li><p>缓存空值：如果说查询数据库不存在这个数据，就把空值缓存到redis中</p>
-<p>优点：简单</p>
-<p>缺点：如果有很多这样的请求，会占用redis缓存，消耗内存，还有可能会造成不一致的问题</p>
-</li>
-<li><p>布隆过滤器</p>
-<p>布隆过滤器主要用于检索一个元素在数据库中是否存在，可以使用redisson实现布隆过滤器。</p>
-<p>它的底层是一个bitmap，每个位置只能存储0或1，一个key来了之后经过多个不同的hash函数运算得到多个hash值，如果hash值对应的位置全是1，则数据库中有这个值。</p>
-<p>优点：内存占用少</p>
-<p>缺点：存在误判，bitmap长度越大，误判率越小。redisson可以设置这个误判率</p>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>秋招</category>
       </categories>
   </entry>
   <entry>
@@ -1753,6 +1813,33 @@ ROLLBACK;
 <li>回答可以结合项目，项目中是怎么用的</li>
 <li>要先说结论，让面试官知道你知道</li>
 <li></li>
+</ol>
+]]></content>
+      <categories>
+        <category>秋招</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>拿下八股</title>
+    <url>/2024/03/24/%E6%8B%BF%E4%B8%8B%E5%85%AB%E8%82%A1/</url>
+    <content><![CDATA[<hr>
+<p>八股汇总</p>
+<span id="more"></span>
+
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://www.yuque.com/coding-guide/bckbvp/rl7g3i">我的八股文学习路线及攻略 (yuque.com)</a></p>
+<h2 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h2><h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><h3 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h3><p>缓存穿透是指查询一个不存在的数据，先在redis中查，redis中没有，然后向数据库中查，但是数据库中也没有，如果有大量这种请求都去查询数据库，会给数据库带来很大压力。</p>
+<p><strong>解决方法：</strong></p>
+<ol>
+<li><p>缓存空值：如果说查询数据库不存在这个数据，就把空值缓存到redis中</p>
+<p>优点：简单</p>
+<p>缺点：如果有很多这样的请求，会占用redis缓存，消耗内存，还有可能会造成不一致的问题</p>
+</li>
+<li><p>布隆过滤器</p>
+<p>布隆过滤器主要用于检索一个元素在数据库中是否存在，可以使用redisson实现布隆过滤器。</p>
+<p>它的底层是一个bitmap，每个位置只能存储0或1，一个key来了之后经过多个不同的hash函数运算得到多个hash值，如果hash值对应的位置全是1，则数据库中有这个值。</p>
+<p>优点：内存占用少</p>
+<p>缺点：存在误判，bitmap长度越大，误判率越小。redisson可以设置这个误判率</p>
+</li>
 </ol>
 ]]></content>
       <categories>
@@ -1850,14 +1937,22 @@ ROLLBACK;
       </categories>
   </entry>
   <entry>
-    <title>草稿</title>
-    <url>/2024/01/22/%E8%8D%89%E7%A8%BF/</url>
-    <content><![CDATA[<p>使用<code>hexo n draft draft1</code>命令将在<code>source\</code>目录下创建<code>_drafts</code>目录，并生成一个<code>draft1.md</code>文件。</p>
-<p>当你编辑完草稿后，可以把文章推送到<code>_posts</code>目录下，通过下面的命令：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo publish &lt;file_name&gt;</span><br></pre></td></tr></table></figure>
+    <title>新建文章模板修改</title>
+    <url>/2024/01/22/%E6%96%B0%E5%BB%BA%E6%96%87%E7%AB%A0%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9/</url>
+    <content><![CDATA[<p>使用hexo new命令新建文章时，会生成出来一个模板，下面是对模板进行修改的操作</p>
+<span id="more"></span>
 
-<p>可以使用<code>hexo --draft</code>命令可以查看已有草稿。</p>
-<p>想要在本地预览草稿的静态文件，也需要在生成静态文件时加上<code>draft</code>参数。</p>
+<p>命令：<code>hexo new [layout] title</code>或 <code>hexo n [layout] title</code></p>
+<p>创建文章前要先选定模板，在hexo中也叫做布局。hexo支持三种布局（layout）：post(默认)、draft、page</p>
+<p>如何自定义布局呢？实际上，布局是一个markdown文件，它们保存在<code>scaffolds/</code>目录下，可以看到hexo自带的三种布局其实就是三个<code>.md</code>文件，每一个文件中的内容实际只包含一个Front-matter。可以在这里修改布局或者建立新的布局，然后创建文章时使用这些布局。</p>
+<p><strong>在hexo的配置文件中可以修改新建文章时默认使用的主题，位置如下：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Writing</span><br><span class="line">new_post_name: :title.md # File name of new posts</span><br><span class="line">default_layout: post</span><br></pre></td></tr></table></figure>
+
+
+
+<p>参考文章：</p>
+<p><a href="https://zhuanlan.zhihu.com/p/132823826">使用hexo新建、编辑并预览文章 - 知乎 (zhihu.com)</a></p>
+<p><a href="https://hexo.io/docs/configuration#Writing">配置 |Hexo的</a></p>
 ]]></content>
       <categories>
         <category>博客</category>
@@ -1908,23 +2003,55 @@ ROLLBACK;
       </categories>
   </entry>
   <entry>
-    <title>新建文章模板修改</title>
-    <url>/2024/01/22/%E6%96%B0%E5%BB%BA%E6%96%87%E7%AB%A0%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9/</url>
-    <content><![CDATA[<p>使用hexo new命令新建文章时，会生成出来一个模板，下面是对模板进行修改的操作</p>
+    <title>草稿</title>
+    <url>/2024/01/22/%E8%8D%89%E7%A8%BF/</url>
+    <content><![CDATA[<p>使用<code>hexo n draft draft1</code>命令将在<code>source\</code>目录下创建<code>_drafts</code>目录，并生成一个<code>draft1.md</code>文件。</p>
+<p>当你编辑完草稿后，可以把文章推送到<code>_posts</code>目录下，通过下面的命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo publish &lt;file_name&gt;</span><br></pre></td></tr></table></figure>
+
+<p>可以使用<code>hexo --draft</code>命令可以查看已有草稿。</p>
+<p>想要在本地预览草稿的静态文件，也需要在生成静态文件时加上<code>draft</code>参数。</p>
+]]></content>
+      <categories>
+        <category>博客</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>hexo提交github出错</title>
+    <url>/2024/01/18/%E8%A7%A3%E5%86%B3github%E6%8F%90%E4%BA%A4%E5%87%BA%E9%94%99/</url>
+    <content><![CDATA[<p>提交github报错问题</p>
 <span id="more"></span>
 
-<p>命令：<code>hexo new [layout] title</code>或 <code>hexo n [layout] title</code></p>
-<p>创建文章前要先选定模板，在hexo中也叫做布局。hexo支持三种布局（layout）：post(默认)、draft、page</p>
-<p>如何自定义布局呢？实际上，布局是一个markdown文件，它们保存在<code>scaffolds/</code>目录下，可以看到hexo自带的三种布局其实就是三个<code>.md</code>文件，每一个文件中的内容实际只包含一个Front-matter。可以在这里修改布局或者建立新的布局，然后创建文章时使用这些布局。</p>
-<p><strong>在hexo的配置文件中可以修改新建文章时默认使用的主题，位置如下：</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Writing</span><br><span class="line">new_post_name: :title.md # File name of new posts</span><br><span class="line">default_layout: post</span><br></pre></td></tr></table></figure>
 
 
 
-<p>参考文章：</p>
-<p><a href="https://zhuanlan.zhihu.com/p/132823826">使用hexo新建、编辑并预览文章 - 知乎 (zhihu.com)</a></p>
-<p><a href="https://hexo.io/docs/configuration#Writing">配置 |Hexo的</a></p>
-]]></content>
+
+<p>参考：</p>
+<p><a href="https://zhuanlan.zhihu.com/p/636418854">解决 Github port 443 : Timed out - 知乎 (zhihu.com)</a></p>
+<p><a href="https://blog.csdn.net/qq_59039063/article/details/132459418">解决使用Hexo搭建个人博客遇到的一些问题_hexo总连不上github-CSDN博客</a></p>
+<p>一般这种情况大多是网络原因导致的，科学上网工具不稳定，DNS解析被污染等因素。我们可以详细看看建立 ssh 连接的过程中发生了什么，可以使用 ssh -v命令，-v表示 verbose，会打出详细日志。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -vT git@github.com</span><br></pre></td></tr></table></figure>
+
+
+
+<p>问题描述：</p>
+<p>使用<code>hexo d</code>命令推送博客到github时出现错误</p>
+<p><img src="/2024/01/18/%E8%A7%A3%E5%86%B3github%E6%8F%90%E4%BA%A4%E5%87%BA%E9%94%99/image-20240118091111539.png" alt="image-20240118091111539"></p>
+<p>分析：</p>
+<p>git所设端口与系统代理不一致</p>
+<p>解决方法：</p>
+<ol>
+<li><p>记录下当前系统代理的 IP 地址和端口号</p>
+<p>地址与端口号为：127.0.0.1:7890</p>
+</li>
+<li><p>修改git的网络设置</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 注意修改成自己的IP和端口号</span></span><br><span class="line">git config --global http.proxy http://127.0.0.1:7890 </span><br><span class="line">git config --global https.proxy http://127.0.0.1:7890</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p><em>Tip：主要解决的是为啥搭建了梯子依旧不好使的问题</em></p>
+<p>后记：</p>
+<p>当我们访问GitHub的时候一般都会使用梯子，所以往上推代码的时候也是需要梯子，没有梯子推送成功概率很低，一般都会报错超时，所以设置梯子提高访问成功率；</p>
+<p>取消代理是因为，访问 Gitee 或其它是不需要梯子，所以要取消代理；或者后悔设置代理了，也可以利用此取消</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 取消代理</span></span><br><span class="line">git config --global --<span class="built_in">unset</span> http.proxy</span><br><span class="line">git config --global --<span class="built_in">unset</span> https.proxy</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看代理</span></span><br><span class="line">git config --global --get http.proxy</span><br><span class="line">git config --global --get https.proxy</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>博客</category>
       </categories>
@@ -2108,46 +2235,6 @@ ROLLBACK;
 ]]></content>
       <categories>
         <category>JAVA</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>hexo提交github出错</title>
-    <url>/2024/01/18/%E8%A7%A3%E5%86%B3github%E6%8F%90%E4%BA%A4%E5%87%BA%E9%94%99/</url>
-    <content><![CDATA[<p>提交github报错问题</p>
-<span id="more"></span>
-
-
-
-
-
-<p>参考：</p>
-<p><a href="https://zhuanlan.zhihu.com/p/636418854">解决 Github port 443 : Timed out - 知乎 (zhihu.com)</a></p>
-<p><a href="https://blog.csdn.net/qq_59039063/article/details/132459418">解决使用Hexo搭建个人博客遇到的一些问题_hexo总连不上github-CSDN博客</a></p>
-<p>一般这种情况大多是网络原因导致的，科学上网工具不稳定，DNS解析被污染等因素。我们可以详细看看建立 ssh 连接的过程中发生了什么，可以使用 ssh -v命令，-v表示 verbose，会打出详细日志。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -vT git@github.com</span><br></pre></td></tr></table></figure>
-
-
-
-<p>问题描述：</p>
-<p>使用<code>hexo d</code>命令推送博客到github时出现错误</p>
-<p><img src="/2024/01/18/%E8%A7%A3%E5%86%B3github%E6%8F%90%E4%BA%A4%E5%87%BA%E9%94%99/image-20240118091111539.png" alt="image-20240118091111539"></p>
-<p>分析：</p>
-<p>git所设端口与系统代理不一致</p>
-<p>解决方法：</p>
-<ol>
-<li><p>记录下当前系统代理的 IP 地址和端口号</p>
-<p>地址与端口号为：127.0.0.1:7890</p>
-</li>
-<li><p>修改git的网络设置</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 注意修改成自己的IP和端口号</span></span><br><span class="line">git config --global http.proxy http://127.0.0.1:7890 </span><br><span class="line">git config --global https.proxy http://127.0.0.1:7890</span><br></pre></td></tr></table></figure></li>
-</ol>
-<p><em>Tip：主要解决的是为啥搭建了梯子依旧不好使的问题</em></p>
-<p>后记：</p>
-<p>当我们访问GitHub的时候一般都会使用梯子，所以往上推代码的时候也是需要梯子，没有梯子推送成功概率很低，一般都会报错超时，所以设置梯子提高访问成功率；</p>
-<p>取消代理是因为，访问 Gitee 或其它是不需要梯子，所以要取消代理；或者后悔设置代理了，也可以利用此取消</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 取消代理</span></span><br><span class="line">git config --global --<span class="built_in">unset</span> http.proxy</span><br><span class="line">git config --global --<span class="built_in">unset</span> https.proxy</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看代理</span></span><br><span class="line">git config --global --get http.proxy</span><br><span class="line">git config --global --get https.proxy</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>博客</category>
       </categories>
   </entry>
 </search>

@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha256-yIDrPSXHZdOZhAqiBP7CKzIwMQmRCJ8UeB8Jo17YC4o=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.19.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="ThreadLocal实现原理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ThreadLocal解析">
+<meta property="og:url" content="http://example.com/2024/04/04/ThreadLocal%E8%A7%A3%E6%9E%90/index.html">
+<meta property="og:site_name" content="MyBlog">
+<meta property="og:description" content="ThreadLocal实现原理">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2024/04/04/ThreadLocal%E8%A7%A3%E6%9E%90/image-20230505224626253.png">
+<meta property="og:image" content="http://example.com/2024/04/04/ThreadLocal%E8%A7%A3%E6%9E%90/image-20230505224715087.png">
+<meta property="og:image" content="http://example.com/2024/04/04/ThreadLocal%E8%A7%A3%E6%9E%90/image-20240404193933930.png">
+<meta property="og:image" content="http://example.com/2024/04/04/ThreadLocal%E8%A7%A3%E6%9E%90/2b569b2f33904ad190946ebacb3ac87atplv-k3u1fbpfcp-zoom-in-crop-mark1512000.webp">
+<meta property="og:image" content="http://example.com/2024/04/04/ThreadLocal%E8%A7%A3%E6%9E%90/image-20230505224857538.png">
+<meta property="article:published_time" content="2024-04-04T11:24:06.000Z">
+<meta property="article:modified_time" content="2024-04-26T15:28:01.900Z">
+<meta property="article:author" content="WML">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2024/04/04/ThreadLocal%E8%A7%A3%E6%9E%90/image-20230505224626253.png">
+
+
+<link rel="canonical" href="http://example.com/2024/04/04/ThreadLocal%E8%A7%A3%E6%9E%90/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2024/04/04/ThreadLocal%E8%A7%A3%E6%9E%90/","path":"2024/04/04/ThreadLocal解析/","title":"ThreadLocal解析"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>ThreadLocal解析 | MyBlog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">MyBlog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-links"><a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>LINKS</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ThreadLocal%E4%B8%89%E4%B8%AA%E4%B8%BB%E8%A6%81%E6%96%B9%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">ThreadLocal三个主要方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#set"><span class="nav-number">1.1.</span> <span class="nav-text">set</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#get%E6%96%B9%E6%B3%95-remove%E6%96%B9%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">get方法&#x2F;remove方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Thread%E3%80%81THreadLocal%E3%80%81ThreadLocalMap%E4%B9%8B%E9%97%B4%E5%85%B3%E7%B3%BB"><span class="nav-number">2.</span> <span class="nav-text">Thread、THreadLocal、ThreadLocalMap之间关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E7%94%A8Thread%E5%BD%93%E4%BD%9CKEY-%EF%BC%9F%E5%8F%96%E6%95%B0%E6%8D%AE%E4%B8%8D%E6%98%AF%E6%9B%B4%E5%8A%A0%E6%96%B9%E4%BE%BF%E5%90%97%EF%BC%9F"><span class="nav-number">3.</span> <span class="nav-text">为什么不用Thread当作KEY ？取数据不是更加方便吗？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%9C%A8ThreaLocalMap%E4%B8%AD%E9%87%8D%E6%96%B0%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AA%E7%AC%AC%E4%BA%8C%E4%B8%AA%E5%85%83%E7%B4%A0"><span class="nav-number">4.</span> <span class="nav-text">如何在ThreaLocalMap中重新添加一个第二个元素</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ThreadLocalMap%E5%8F%91%E7%94%9FHash%E5%86%B2%E7%AA%81%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3%EF%BC%9F"><span class="nav-number">5.</span> <span class="nav-text">ThreadLocalMap发生Hash冲突怎么解决？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C%E4%B8%8D%E6%83%B3%E8%AE%A9%E5%BE%88%E5%A4%9A%E5%8F%98%E9%87%8F%E9%87%8C%E9%9D%A2%E5%A1%9E%E5%88%B0ThreadLocalMap%E4%B8%AD%E9%80%A0%E6%88%90%E6%89%A9%E5%AE%B9%EF%BC%8C%E6%80%8E%E4%B9%88%E5%8A%9E-%EF%BC%9F"><span class="nav-number">6.</span> <span class="nav-text">如果不想让很多变量里面塞到ThreadLocalMap中造成扩容，怎么办 ？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">7.</span> <span class="nav-text">使用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ThreadLocal-%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="nav-number">8.</span> <span class="nav-text">ThreadLocal 内存泄露的原因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="nav-number">9.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="WML"
+      src="/images/wuhuan.png">
+  <p class="site-author-name" itemprop="name">WML</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="/" title="home → &#x2F;" rel="noopener me"><i class="fa fa-home fa-fw"></i>home</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/04/04/ThreadLocal%E8%A7%A3%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/wuhuan.png">
+      <meta itemprop="name" content="WML">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MyBlog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="ThreadLocal解析 | MyBlog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ThreadLocal解析
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-04-04 19:24:06" itemprop="dateCreated datePublished" datetime="2024-04-04T19:24:06+08:00">2024-04-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-04-26 23:28:01" itemprop="dateModified" datetime="2024-04-26T23:28:01+08:00">2024-04-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/JAVA/" itemprop="url" rel="index"><span itemprop="name">JAVA</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><hr>
+<p>ThreadLocal实现原理</p>
+<span id="more"></span>
+
+<p>ThreadLocal是多线程中对于解决线程安全的一个操作类，它会为每个线程都分配一个独立的线程副本从而解决了变量并发访问冲突的问题。ThreadLocal 同时实现了线程内的资源共享</p>
+<h2 id="ThreadLocal三个主要方法"><a href="#ThreadLocal三个主要方法" class="headerlink" title="ThreadLocal三个主要方法"></a>ThreadLocal三个主要方法</h2><p>三个主要方法：</p>
+<ul>
+<li><p>set(value) 设置值</p>
+</li>
+<li><p>get() 获取值</p>
+</li>
+<li><p>remove() 清除值</p>
+</li>
+</ul>
+<p><strong>使用示例：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ThreadLocalTest</span> &#123;</span><br><span class="line">    <span class="keyword">static</span> ThreadLocal&lt;String&gt; threadLocal = <span class="keyword">new</span> <span class="title class_">ThreadLocal</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">Thread</span>(() -&gt; &#123;</span><br><span class="line">            <span class="type">String</span> <span class="variable">name</span> <span class="operator">=</span> Thread.currentThread().getName();</span><br><span class="line">            threadLocal.set(<span class="string">&quot;itcast&quot;</span>);</span><br><span class="line">            print(name);</span><br><span class="line">            System.out.println(name + <span class="string">&quot;-after remove : &quot;</span> + threadLocal.get());</span><br><span class="line">        &#125;, <span class="string">&quot;t1&quot;</span>).start();</span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">Thread</span>(() -&gt; &#123;</span><br><span class="line">            <span class="type">String</span> <span class="variable">name</span> <span class="operator">=</span> Thread.currentThread().getName();</span><br><span class="line">            threadLocal.set(<span class="string">&quot;itheima&quot;</span>);</span><br><span class="line">            print(name);</span><br><span class="line">            System.out.println(name + <span class="string">&quot;-after remove : &quot;</span> + threadLocal.get());</span><br><span class="line">        &#125;, <span class="string">&quot;t2&quot;</span>).start();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">print</span><span class="params">(String str)</span> &#123;</span><br><span class="line">        <span class="comment">//打印当前线程中本地内存中本地变量的值</span></span><br><span class="line">        System.out.println(str + <span class="string">&quot; :&quot;</span> + threadLocal.get());</span><br><span class="line">        <span class="comment">//清除本地内存中的本地变量</span></span><br><span class="line">        threadLocal.remove();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="set"><a href="#set" class="headerlink" title="set"></a>set</h3><p><img src="/2024/04/04/ThreadLocal%E8%A7%A3%E6%9E%90/image-20230505224626253.png" alt="image-20230505224626253"></p>
+<h3 id="get方法-remove方法"><a href="#get方法-remove方法" class="headerlink" title="get方法&#x2F;remove方法"></a>get方法&#x2F;remove方法</h3><p><img src="/2024/04/04/ThreadLocal%E8%A7%A3%E6%9E%90/image-20230505224715087.png" alt="image-20230505224715087"></p>
+<h2 id="Thread、THreadLocal、ThreadLocalMap之间关系"><a href="#Thread、THreadLocal、ThreadLocalMap之间关系" class="headerlink" title="Thread、THreadLocal、ThreadLocalMap之间关系"></a>Thread、THreadLocal、ThreadLocalMap之间关系</h2><p><img src="/2024/04/04/ThreadLocal%E8%A7%A3%E6%9E%90/image-20240404193933930.png" alt="image-20240404193933930"></p>
+<p><img src="/2024/04/04/ThreadLocal%E8%A7%A3%E6%9E%90/2b569b2f33904ad190946ebacb3ac87atplv-k3u1fbpfcp-zoom-in-crop-mark1512000.webp" alt="image.png"></p>
+<p>两个图像意思一样</p>
+<p>ThreadLocalMap是Thread线程的一个成员变量，ThreadLocal是维护ThreadLocalMap这个属性值的一个工具类。<em>Thread线程可以拥有多个ThreadLocal维护的自己线程独享的共享变量</em>。</p>
+<p><em>ThreadLocalMap中的Key是Threadlocal 对象，value是要存放的线程局部变量。</em></p>
+<p><em><strong>每个线程都有一个ThreadLocalMap成员变量，用ThreadLocal作为key，每个线程可以使用相同的ThreadLocal，那么就相当于把数据存放在自己Map的相同位置，如果还想再存一个，可以再定义一个ThreadLocal，使用set方法往Map里存。</strong></em></p>
+<p><em>换种描述理解：</em></p>
+<p><em>从图中我们可以当线程使用threadlocal 时，是将threadlocal当做当前线程thread的属性ThreadLocalMap 中的一个Entry的key值，实际上存放的变量是Entry的value值，我们实际要使用的值是value值。value值为什么不存在并发问题呢，因为它只有一个线程能访问。threadlocal我们可以当做一个索引看待，可以有多个threadlocal 变量，不同的threadlocal对应于不同的value值，他们之间互不影响。ThreadLocal为每一个线程都提供了变量的副本，使得每个线程在某一时间访问到的并不是同一个对象，这样就隔离了多个线程对数据的数据共享。</em></p>
+<h2 id="为什么不用Thread当作KEY-？取数据不是更加方便吗？"><a href="#为什么不用Thread当作KEY-？取数据不是更加方便吗？" class="headerlink" title="为什么不用Thread当作KEY ？取数据不是更加方便吗？"></a>为什么不用Thread当作KEY ？取数据不是更加方便吗？</h2><p>不可以，因为如果现在是只有一个Order对象操作，如果在家一个优惠券信息，那该怎么办？如果重新set不是就把原先的内容给覆盖了吗。</p>
+<h2 id="如何在ThreaLocalMap中重新添加一个第二个元素"><a href="#如何在ThreaLocalMap中重新添加一个第二个元素" class="headerlink" title="如何在ThreaLocalMap中重新添加一个第二个元素"></a>如何在ThreaLocalMap中重新添加一个第二个元素</h2><p>只需要 重新创建一个 <code>private ThreadLocal&lt;CardInfo&gt; cardInfoThreadLocal = new ThreadLocal&lt;&gt;();</code> 就可以了，这样当前线程就会有优惠券信息了</p>
+<h2 id="ThreadLocalMap发生Hash冲突怎么解决？"><a href="#ThreadLocalMap发生Hash冲突怎么解决？" class="headerlink" title="ThreadLocalMap发生Hash冲突怎么解决？"></a>ThreadLocalMap发生Hash冲突怎么解决？</h2><p>ThreadLocalMap 采用的是开放定址法，如果发生冲突，就往后找相邻的下一个节点，如果相邻的节点是空的，那么久直接存进去，如果不为空，继续往后查找，如果找到数据的最后也没有找到空的，就扩容</p>
+<h2 id="如果不想让很多变量里面塞到ThreadLocalMap中造成扩容，怎么办-？"><a href="#如果不想让很多变量里面塞到ThreadLocalMap中造成扩容，怎么办-？" class="headerlink" title="如果不想让很多变量里面塞到ThreadLocalMap中造成扩容，怎么办 ？"></a>如果不想让很多变量里面塞到ThreadLocalMap中造成扩容，怎么办 ？</h2><p>把ThreadLcoal的Value设置为Map值就行了</p>
+<h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><ol>
+<li>多线程处理订单，把提交的订单信息保存到ThreadLocal中，让每个线程处理自己的内容</li>
+<li>存储用户Session</li>
+<li>数据库连接，处理数据库事务</li>
+</ol>
+<h2 id="ThreadLocal-内存泄露的原因"><a href="#ThreadLocal-内存泄露的原因" class="headerlink" title="ThreadLocal 内存泄露的原因"></a>ThreadLocal 内存泄露的原因</h2><p>Entry将ThreadLocal作为Key，值作为value保存，它继承自WeakReference，注意构造函数里的第一行代码super(k)，这意味着ThreadLocal对象是一个「弱引用」</p>
+<p>每一个Thread维护一个ThreadLocalMap，在ThreadLocalMap中的Entry对象继承了WeakReference。其中key为使用弱引用的ThreadLocal实例，value为线程变量的副本</p>
+<p><img src="/2024/04/04/ThreadLocal%E8%A7%A3%E6%9E%90/image-20230505224857538.png" alt="image-20230505224857538"></p>
+<p>在使用ThreadLocal的时候，强烈建议：<strong>务必手动remove</strong></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6963646002150506533">深度解析ThreadLocal ? Key是当前线程？ - 掘金 (juejin.cn)</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/u010445301/article/details/111322569">史上最全ThreadLocal 详解（一）-CSDN博客</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/03/30/Java%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0/" rel="prev" title="Java常用函数">
+                  <i class="fa fa-angle-left"></i> Java常用函数
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">WML</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
