@@ -26,6 +26,43 @@
       </categories>
   </entry>
   <entry>
+    <title>Java常用函数</title>
+    <url>/2024/03/30/Java%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0/</url>
+    <content><![CDATA[<hr>
+<p>Java常用集和，字符串api，idea使用小技巧</p>
+<span id="more"></span>
+
+
+
+<h3 id="Java中map-getOrDefault-方法的使用"><a href="#Java中map-getOrDefault-方法的使用" class="headerlink" title="Java中map.getOrDefault()方法的使用"></a>Java中map.getOrDefault()方法的使用</h3><p>Map.getOrDefault(Object key, V defaultValue)</p>
+<p>作用：在map集合中有这个key时，就用这个key的val；如果没有就使用defaultValue默认值</p>
+<p>代码示例：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">HashMap&lt;String, String&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">map.put(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;cookie&quot;</span>);</span><br><span class="line">map.put(<span class="string">&quot;age&quot;</span>, <span class="string">&quot;18&quot;</span>);</span><br><span class="line">map.put(<span class="string">&quot;sex&quot;</span>, <span class="string">&quot;女&quot;</span>);</span><br><span class="line"><span class="type">String</span> <span class="variable">name</span> <span class="operator">=</span> map.getOrDefault(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;random&quot;</span>);</span><br><span class="line">System.out.println(name);<span class="comment">// cookie，map中存在name,获得name对应的value</span></span><br><span class="line"><span class="type">int</span> <span class="variable">score</span> <span class="operator">=</span> map.getOrDefault(<span class="string">&quot;score&quot;</span>, <span class="number">80</span>);</span><br><span class="line">System.out.println(score);<span class="comment">// 80，map中不存在score,使用默认值80</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="Java集和与数组互转"><a href="#Java集和与数组互转" class="headerlink" title="Java集和与数组互转"></a>Java集和与数组互转</h3><p><strong>集和转为数组：</strong></p>
+<p>使用集和的toArray(T[] array)方法，传入的是类型完全一致、长度为 0 的空数组。</p>
+<p>错误点：直接使用 toArray 无参方法存在问题，此方法返回值只能是 Object[]类，若强转其它类型数组将出现ClassCastException 错误。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;String&gt; list=<span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">list.add(<span class="string">&quot;aa&quot;</span>);</span><br><span class="line">list.add(<span class="string">&quot;bb&quot;</span>);</span><br><span class="line">list.add(<span class="string">&quot;cc&quot;</span>);</span><br><span class="line"><span class="comment">// 使用无参的toArray()方法，默认的返回类型是Object []</span></span><br><span class="line">Object[] objects = list.toArray();</span><br></pre></td></tr></table></figure>
+
+<p>如果是集和转二维数组，传入类型长度也可以是0，如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;<span class="type">int</span>[]&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">list.toArray(<span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">0</span>][]);</span><br></pre></td></tr></table></figure>
+
+<p>说明：使用 toArray 带参方法，数组空间大小的 length：<br>1） <strong>等于 0，动态创建与 size 相同的数组，性能最好。</strong><br>2） 大于 0 但小于 size，重新创建大小等于 size 的数组，增加 GC 负担。<br>3） 等于 size，在高并发情况下，数组创建完成之后，size 正在变大的情况下，负面影响与 2 相同。<br>4） 大于 size，空间浪费，且在 size 处插入 null 值，存在 NPE 隐患</p>
+<p><strong>数组转集和：</strong></p>
+<p>Arrays.asList()返回的实际上是一个<strong>不允许修改其结构的List</strong>，当前希望对返回的List进行修改结构操作时，按照下面的方式即可：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Integer [] arr2=&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;;</span><br><span class="line"><span class="comment">//  传入的参数类型为 Integer时，返回泛型参数就是Integer</span></span><br><span class="line">List&lt;Integer&gt; list2 = Arrays.asList(arr2);</span><br><span class="line"></span><br><span class="line"><span class="comment">//  新建一个java.util包下的List的实现类即可</span></span><br><span class="line">List&lt;Integer&gt; list=<span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(list2);</span><br><span class="line">list.add(<span class="number">4</span>);</span><br><span class="line">System.out.println(list);</span><br></pre></td></tr></table></figure>
+
+<h3 id="idea同时编辑多行"><a href="#idea同时编辑多行" class="headerlink" title="idea同时编辑多行"></a>idea同时编辑多行</h3><ol>
+<li><em>按住Alt 然后按住鼠标左键拖动光标,就可以同时输入了</em></li>
+<li><em>按住Alt+Shift,然后点击鼠标左键,就可以让光标出现在多个位置,同时编辑</em></li>
+</ol>
+]]></content>
+      <categories>
+        <category>JAVA</category>
+      </categories>
+  </entry>
+  <entry>
     <title>IO流</title>
     <url>/2024/02/05/IO%E6%B5%81/</url>
     <content><![CDATA[<hr>
@@ -1234,47 +1271,10 @@ ROLLBACK;
       </categories>
   </entry>
   <entry>
-    <title>Java常用函数</title>
-    <url>/2024/03/30/Java%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0/</url>
-    <content><![CDATA[<hr>
-<p>Java常用集和，字符串api，idea使用小技巧</p>
-<span id="more"></span>
-
-
-
-<h3 id="Java中map-getOrDefault-方法的使用"><a href="#Java中map-getOrDefault-方法的使用" class="headerlink" title="Java中map.getOrDefault()方法的使用"></a>Java中map.getOrDefault()方法的使用</h3><p>Map.getOrDefault(Object key, V defaultValue)</p>
-<p>作用：在map集合中有这个key时，就用这个key的val；如果没有就使用defaultValue默认值</p>
-<p>代码示例：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">HashMap&lt;String, String&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">map.put(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;cookie&quot;</span>);</span><br><span class="line">map.put(<span class="string">&quot;age&quot;</span>, <span class="string">&quot;18&quot;</span>);</span><br><span class="line">map.put(<span class="string">&quot;sex&quot;</span>, <span class="string">&quot;女&quot;</span>);</span><br><span class="line"><span class="type">String</span> <span class="variable">name</span> <span class="operator">=</span> map.getOrDefault(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;random&quot;</span>);</span><br><span class="line">System.out.println(name);<span class="comment">// cookie，map中存在name,获得name对应的value</span></span><br><span class="line"><span class="type">int</span> <span class="variable">score</span> <span class="operator">=</span> map.getOrDefault(<span class="string">&quot;score&quot;</span>, <span class="number">80</span>);</span><br><span class="line">System.out.println(score);<span class="comment">// 80，map中不存在score,使用默认值80</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="Java集和与数组互转"><a href="#Java集和与数组互转" class="headerlink" title="Java集和与数组互转"></a>Java集和与数组互转</h3><p><strong>集和转为数组：</strong></p>
-<p>使用集和的toArray(T[] array)方法，传入的是类型完全一致、长度为 0 的空数组。</p>
-<p>错误点：直接使用 toArray 无参方法存在问题，此方法返回值只能是 Object[]类，若强转其它类型数组将出现ClassCastException 错误。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;String&gt; list=<span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">list.add(<span class="string">&quot;aa&quot;</span>);</span><br><span class="line">list.add(<span class="string">&quot;bb&quot;</span>);</span><br><span class="line">list.add(<span class="string">&quot;cc&quot;</span>);</span><br><span class="line"><span class="comment">// 使用无参的toArray()方法，默认的返回类型是Object []</span></span><br><span class="line">Object[] objects = list.toArray();</span><br></pre></td></tr></table></figure>
-
-<p>如果是集和转二维数组，传入类型长度也可以是0，如下：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;<span class="type">int</span>[]&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">list.toArray(<span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">0</span>][]);</span><br></pre></td></tr></table></figure>
-
-<p>说明：使用 toArray 带参方法，数组空间大小的 length：<br>1） <strong>等于 0，动态创建与 size 相同的数组，性能最好。</strong><br>2） 大于 0 但小于 size，重新创建大小等于 size 的数组，增加 GC 负担。<br>3） 等于 size，在高并发情况下，数组创建完成之后，size 正在变大的情况下，负面影响与 2 相同。<br>4） 大于 size，空间浪费，且在 size 处插入 null 值，存在 NPE 隐患</p>
-<p><strong>数组转集和：</strong></p>
-<p>Arrays.asList()返回的实际上是一个<strong>不允许修改其结构的List</strong>，当前希望对返回的List进行修改结构操作时，按照下面的方式即可：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Integer [] arr2=&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;;</span><br><span class="line"><span class="comment">//  传入的参数类型为 Integer时，返回泛型参数就是Integer</span></span><br><span class="line">List&lt;Integer&gt; list2 = Arrays.asList(arr2);</span><br><span class="line"></span><br><span class="line"><span class="comment">//  新建一个java.util包下的List的实现类即可</span></span><br><span class="line">List&lt;Integer&gt; list=<span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(list2);</span><br><span class="line">list.add(<span class="number">4</span>);</span><br><span class="line">System.out.println(list);</span><br></pre></td></tr></table></figure>
-
-<h3 id="idea同时编辑多行"><a href="#idea同时编辑多行" class="headerlink" title="idea同时编辑多行"></a>idea同时编辑多行</h3><ol>
-<li><em>按住Alt 然后按住鼠标左键拖动光标,就可以同时输入了</em></li>
-<li><em>按住Alt+Shift,然后点击鼠标左键,就可以让光标出现在多个位置,同时编辑</em></li>
-</ol>
-]]></content>
-      <categories>
-        <category>JAVA</category>
-      </categories>
-  </entry>
-  <entry>
     <title>ThreadLocal解析</title>
     <url>/2024/04/04/ThreadLocal%E8%A7%A3%E6%9E%90/</url>
     <content><![CDATA[<hr>
-<p>ThreadLocal实现原理</p>
+<p>ThreadLocal实现原理细节</p>
 <span id="more"></span>
 
 <p>ThreadLocal是多线程中对于解决线程安全的一个操作类，它会为每个线程都分配一个独立的线程副本从而解决了变量并发访问冲突的问题。ThreadLocal 同时实现了线程内的资源共享</p>
@@ -1578,43 +1578,6 @@ ROLLBACK;
       </categories>
   </entry>
   <entry>
-    <title>博客菜单设置</title>
-    <url>/2024/01/21/%E5%8D%9A%E5%AE%A2%E8%8F%9C%E5%8D%95%E8%AE%BE%E7%BD%AE/</url>
-    <content><![CDATA[<p>分类、标签等菜单栏设置</p>
-<span id="more"></span>
-
-
-
-<h3 id="设置菜单"><a href="#设置菜单" class="headerlink" title="设置菜单"></a>设置菜单</h3><p>打开主题配置文件即themes&#x2F;next下的_config.yml，查找menu，将前面的#删除就行了：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">menu:</span><br><span class="line">  home: / || home                      #首页</span><br><span class="line">  archives: /archives/ || archive      #归档</span><br><span class="line">  categories: /categories/ || th       #分类</span><br><span class="line">  tags: /tags/ || tags                 #标签</span><br><span class="line">  about: /about/ || user               #关于</span><br><span class="line">  resources: /resources/ || download   #资源</span><br><span class="line">  # schedule: /schedule/ || calendar    #日历</span><br><span class="line">  # sitemap: /sitemap.xml || sitemap    #站点地图，供搜索引擎爬取</span><br><span class="line">  # commonweal: /404/ || heartbeat      #腾讯公益404</span><br></pre></td></tr></table></figure>
-
-<p>“||”前面的是目标链接，后面的是图标名称，next使用的图标全是<a href="https://fontawesome.com.cn/search-download">图标库 - Font Awesome 中文网</a> 这一网站的，有想用的图标直接在fontawesome上面找图标的名称就行。resources 是我自己添加的。</p>
-<p><strong>新添加的菜单需要翻译对应的中文，打开 <code>theme/next/languages/zh-CN.yml</code>，在 menu 下设置：</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">menu:</span><br><span class="line">  home: 首页</span><br><span class="line">  archives: 归档</span><br><span class="line">  categories: 分类</span><br><span class="line">  tags: 标签</span><br><span class="line">  about: 关于</span><br><span class="line">  resources: 资源</span><br><span class="line">  search: 搜索</span><br></pre></td></tr></table></figure>
-
-
-
-<p>在根目录下打开 <code>Git Bash</code>，输入如下代码：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo new page &quot;categories&quot;</span><br><span class="line">hexo new page &quot;tags&quot;</span><br><span class="line">hexo new page &quot;about&quot;</span><br><span class="line">hexo new page &quot;resources&quot;</span><br></pre></td></tr></table></figure>
-
-<p>此时在根目录的sources文件夹下会生成categories、tags、about、resources四个文件，每个文件中有一个 <code>index.md</code> 文件，修改内容分别如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: 分类</span><br><span class="line">date: 2020-02-10 22:07:08</span><br><span class="line">type: &quot;categories&quot;</span><br><span class="line">comments: false</span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line">title: 标签</span><br><span class="line">date: 2020-02-10 22:07:08</span><br><span class="line">type: &quot;tags&quot;</span><br><span class="line">comments: false</span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line">title: 关于</span><br><span class="line">date: 2020-02-10 22:07:08</span><br><span class="line">type: &quot;about&quot;</span><br><span class="line">comments: false</span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line">title: 资源</span><br><span class="line">date: 2020-02-10 22:07:08</span><br><span class="line">type: &quot;resources&quot;</span><br><span class="line">comments: false</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-
-<p> 注：如果有启用评论，默认页面带有评论。需要关闭的话，添加字段 comments 并将值设置为false。</p>
-<h3 id="给文章添加标签、分类"><a href="#给文章添加标签、分类" class="headerlink" title="给文章添加标签、分类"></a>给文章添加标签、分类</h3><p>新建好文章文档，如下方式设置文章的标签和分类</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">博客菜单设置</span></span><br><span class="line"><span class="attr">date:</span> <span class="number">2024-01-21 20:49:18</span></span><br><span class="line"><span class="attr">tags:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">第一个标签</span></span><br><span class="line"><span class="attr">categories:</span> </span><br><span class="line"><span class="bullet">-</span> <span class="string">test</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">二级分类</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>上面分类为二级分类，test分类下的二级分类</strong>。可同时设置多标签，但只能有一个分类</p>
-<p>tip：删除标签的话，将含有该标签的文章删除或更改为其他标签，hexo clean后就删除了</p>
-]]></content>
-      <categories>
-        <category>博客</category>
-      </categories>
-      <tags>
-        <tag>第一个标签</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>博客插入图片</title>
     <url>/2024/01/28/%E5%8D%9A%E5%AE%A2%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87/</url>
     <content><![CDATA[<hr>
@@ -1678,6 +1641,43 @@ ROLLBACK;
       <categories>
         <category>博客</category>
       </categories>
+  </entry>
+  <entry>
+    <title>博客菜单设置</title>
+    <url>/2024/01/21/%E5%8D%9A%E5%AE%A2%E8%8F%9C%E5%8D%95%E8%AE%BE%E7%BD%AE/</url>
+    <content><![CDATA[<p>分类、标签等菜单栏设置</p>
+<span id="more"></span>
+
+
+
+<h3 id="设置菜单"><a href="#设置菜单" class="headerlink" title="设置菜单"></a>设置菜单</h3><p>打开主题配置文件即themes&#x2F;next下的_config.yml，查找menu，将前面的#删除就行了：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">menu:</span><br><span class="line">  home: / || home                      #首页</span><br><span class="line">  archives: /archives/ || archive      #归档</span><br><span class="line">  categories: /categories/ || th       #分类</span><br><span class="line">  tags: /tags/ || tags                 #标签</span><br><span class="line">  about: /about/ || user               #关于</span><br><span class="line">  resources: /resources/ || download   #资源</span><br><span class="line">  # schedule: /schedule/ || calendar    #日历</span><br><span class="line">  # sitemap: /sitemap.xml || sitemap    #站点地图，供搜索引擎爬取</span><br><span class="line">  # commonweal: /404/ || heartbeat      #腾讯公益404</span><br></pre></td></tr></table></figure>
+
+<p>“||”前面的是目标链接，后面的是图标名称，next使用的图标全是<a href="https://fontawesome.com.cn/search-download">图标库 - Font Awesome 中文网</a> 这一网站的，有想用的图标直接在fontawesome上面找图标的名称就行。resources 是我自己添加的。</p>
+<p><strong>新添加的菜单需要翻译对应的中文，打开 <code>theme/next/languages/zh-CN.yml</code>，在 menu 下设置：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">menu:</span><br><span class="line">  home: 首页</span><br><span class="line">  archives: 归档</span><br><span class="line">  categories: 分类</span><br><span class="line">  tags: 标签</span><br><span class="line">  about: 关于</span><br><span class="line">  resources: 资源</span><br><span class="line">  search: 搜索</span><br></pre></td></tr></table></figure>
+
+
+
+<p>在根目录下打开 <code>Git Bash</code>，输入如下代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo new page &quot;categories&quot;</span><br><span class="line">hexo new page &quot;tags&quot;</span><br><span class="line">hexo new page &quot;about&quot;</span><br><span class="line">hexo new page &quot;resources&quot;</span><br></pre></td></tr></table></figure>
+
+<p>此时在根目录的sources文件夹下会生成categories、tags、about、resources四个文件，每个文件中有一个 <code>index.md</code> 文件，修改内容分别如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: 分类</span><br><span class="line">date: 2020-02-10 22:07:08</span><br><span class="line">type: &quot;categories&quot;</span><br><span class="line">comments: false</span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line">title: 标签</span><br><span class="line">date: 2020-02-10 22:07:08</span><br><span class="line">type: &quot;tags&quot;</span><br><span class="line">comments: false</span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line">title: 关于</span><br><span class="line">date: 2020-02-10 22:07:08</span><br><span class="line">type: &quot;about&quot;</span><br><span class="line">comments: false</span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line">title: 资源</span><br><span class="line">date: 2020-02-10 22:07:08</span><br><span class="line">type: &quot;resources&quot;</span><br><span class="line">comments: false</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<p> 注：如果有启用评论，默认页面带有评论。需要关闭的话，添加字段 comments 并将值设置为false。</p>
+<h3 id="给文章添加标签、分类"><a href="#给文章添加标签、分类" class="headerlink" title="给文章添加标签、分类"></a>给文章添加标签、分类</h3><p>新建好文章文档，如下方式设置文章的标签和分类</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">博客菜单设置</span></span><br><span class="line"><span class="attr">date:</span> <span class="number">2024-01-21 20:49:18</span></span><br><span class="line"><span class="attr">tags:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">第一个标签</span></span><br><span class="line"><span class="attr">categories:</span> </span><br><span class="line"><span class="bullet">-</span> <span class="string">test</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">二级分类</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>上面分类为二级分类，test分类下的二级分类</strong>。可同时设置多标签，但只能有一个分类</p>
+<p>tip：删除标签的话，将含有该标签的文章删除或更改为其他标签，hexo clean后就删除了</p>
+]]></content>
+      <categories>
+        <category>博客</category>
+      </categories>
+      <tags>
+        <tag>第一个标签</tag>
+      </tags>
   </entry>
   <entry>
     <title>多线程基础</title>
@@ -1801,25 +1801,6 @@ ROLLBACK;
       </categories>
   </entry>
   <entry>
-    <title>拿下面试</title>
-    <url>/2024/03/24/%E6%8B%BF%E4%B8%8B%E9%9D%A2%E8%AF%95/</url>
-    <content><![CDATA[<hr>
-<p>面试技巧及面经汇总</p>
-<span id="more"></span>
-
-
-
-<h2 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h2><ol>
-<li>回答可以结合项目，项目中是怎么用的</li>
-<li>要先说结论，让面试官知道你知道</li>
-<li></li>
-</ol>
-]]></content>
-      <categories>
-        <category>秋招</category>
-      </categories>
-  </entry>
-  <entry>
     <title>拿下八股</title>
     <url>/2024/03/24/%E6%8B%BF%E4%B8%8B%E5%85%AB%E8%82%A1/</url>
     <content><![CDATA[<hr>
@@ -1840,6 +1821,25 @@ ROLLBACK;
 <p>优点：内存占用少</p>
 <p>缺点：存在误判，bitmap长度越大，误判率越小。redisson可以设置这个误判率</p>
 </li>
+</ol>
+]]></content>
+      <categories>
+        <category>秋招</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>拿下面试</title>
+    <url>/2024/03/24/%E6%8B%BF%E4%B8%8B%E9%9D%A2%E8%AF%95/</url>
+    <content><![CDATA[<hr>
+<p>面试技巧及面经汇总</p>
+<span id="more"></span>
+
+
+
+<h2 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h2><ol>
+<li>回答可以结合项目，项目中是怎么用的</li>
+<li>要先说结论，让面试官知道你知道</li>
+<li></li>
 </ol>
 ]]></content>
       <categories>
@@ -1959,22 +1959,6 @@ ROLLBACK;
       </categories>
   </entry>
   <entry>
-    <title>测试二级分类</title>
-    <url>/2024/05/12/%E6%B5%8B%E8%AF%95%E4%BA%8C%E7%BA%A7%E5%88%86%E7%B1%BB/</url>
-    <content><![CDATA[<hr>
-<p>redis相关知识</p>
-<span id="more"></span>
-
-<p>redis</p>
-<p>mysql</p>
-<p>jvm</p>
-]]></content>
-      <categories>
-        <category>JAVA</category>
-        <category>Redis</category>
-      </categories>
-  </entry>
-  <entry>
     <title>添加自定义页面</title>
     <url>/2024/01/23/%E6%B7%BB%E5%8A%A0%E8%87%AA%E5%AE%9A%E4%B9%89%E9%A1%B5%E9%9D%A2/</url>
     <content><![CDATA[<p>hexo博客添加自定义html页面</p>
@@ -2016,6 +2000,22 @@ ROLLBACK;
 ]]></content>
       <categories>
         <category>博客</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>测试二级分类</title>
+    <url>/2024/05/12/%E6%B5%8B%E8%AF%95%E4%BA%8C%E7%BA%A7%E5%88%86%E7%B1%BB/</url>
+    <content><![CDATA[<hr>
+<p>redis相关知识</p>
+<span id="more"></span>
+
+<p>redis</p>
+<p>mysql</p>
+<p>jvm</p>
+]]></content>
+      <categories>
+        <category>JAVA</category>
+        <category>Redis</category>
       </categories>
   </entry>
   <entry>
